@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.function.Predicate;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,14 +23,14 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
-@ToString
 @EqualsAndHashCode
+@ToString
 public class Place {
 
 	@Id
@@ -55,6 +54,27 @@ public class Place {
 	@Column(name = "go_out_level")
 	@Enumerated(value = EnumType.STRING)
 	private GoOutLevel goOutLevel;
+
+	public Place(
+		final Long id,
+		final String name,
+		final Location location,
+		final Weather weather,
+		final Congestion congestion,
+		final GoOutLevel goOutLevel) {
+
+		if (!StringUtils.hasText(name)) {
+			log.warn("장소 이름이 없어요. 시간: {}", LocalDateTime.now());
+			throw new IllegalArgumentException();
+		}
+
+		this.id = id;
+		this.name = name;
+		this.location = location;
+		this.weather = weather;
+		this.congestion = congestion;
+		this.goOutLevel = goOutLevel;
+	}
 
 	@Builder
 	public Place(

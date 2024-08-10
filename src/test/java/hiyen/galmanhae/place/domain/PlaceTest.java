@@ -62,6 +62,12 @@ class PlaceTest {
 		@Test
 		void fail_nullValues() {
 			assertAll(
+				//Name이 null
+				() -> assertThatThrownBy(() -> {
+					PlaceMapper.toPlace(null, Location.of(latitude, longitude), Weather.of(weatherTemp, weatherRaining),
+						Congestion.of(congestionPeople, congestionIndicator));
+				}).isInstanceOf(IllegalArgumentException.class),
+
 				// Latitude가 null
 				() -> assertThatThrownBy(() -> {
 					Location location = Location.of(null, longitude);
