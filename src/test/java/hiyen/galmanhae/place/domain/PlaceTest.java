@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class PlaceTest {
 
+	//TODO 이후 프로덕션 코드로 옮길 예정
 	static class PlaceMapper {
 
 		public static Place toPlace(
