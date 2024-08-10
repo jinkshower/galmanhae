@@ -28,7 +28,6 @@ public class Weather {
 	@Column(name = "weather_raining")
 	private Double weatherRaining;
 
-	@Column(name = "weather_level")
 	@Embedded
 	private WeatherLevel weatherLevel;
 
