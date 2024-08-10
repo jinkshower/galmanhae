@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.function.Predicate;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
 @EqualsAndHashCode
 @ToString
@@ -33,15 +35,6 @@ public class WeatherLevel {
 
 	@Column(name = "weather_score")
 	private Integer weatherScore;
-
-	public WeatherLevel(
-		final WeatherRainingGrade weatherRainingGrade,
-		final WeatherTempGrade weatherTempGrade,
-		final Integer weatherScore) {
-		this.weatherRainingGrade = weatherRainingGrade;
-		this.weatherTempGrade = weatherTempGrade;
-		this.weatherScore = weatherScore;
-	}
 
 	public static WeatherLevel of(final Double weatherTemp, final Double weatherRaining) {
 		final WeatherRainingGrade rainingGrade = WeatherRainingGrade.of(weatherRaining);
@@ -77,11 +70,11 @@ public class WeatherLevel {
 	@Getter
 	@RequiredArgsConstructor
 	public enum WeatherTempGrade {
-		COLD("춥고", 5, temp -> temp < 5),
-		CHILLY("쌀쌀하고", 20, temp -> temp < 10),
-		MILD("시원하고", 40, temp -> temp < 20),
-		WARM("따뜻하고", 20, temp -> temp < 30),
-		HOT("덥고", 5, temp -> temp >= 30);
+		COLD("춥고", 5, temp -> temp <= 5),
+		CHILLY("쌀쌀하고", 20, temp -> temp <= 10),
+		MILD("시원하고", 40, temp -> temp <= 20),
+		WARM("따뜻하고", 20, temp -> temp <= 30),
+		HOT("덥고", 5, temp -> temp > 30);
 
 		private final String description;
 		private final int score;
