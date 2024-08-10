@@ -26,7 +26,7 @@ import org.thymeleaf.util.StringUtils;
 @ToString
 public class Congestion {
 
-	@Column(name = "congestion_indicator")
+	@Column(name = "congestion_people")
 	private Integer congestionPeople;
 
 	@Column(name = "congestion_level")

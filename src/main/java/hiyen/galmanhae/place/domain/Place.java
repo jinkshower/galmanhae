@@ -55,6 +55,10 @@ public class Place {
 	@Enumerated(value = EnumType.STRING)
 	private GoOutLevel goOutLevel;
 
+	//TODO 이후 Jpa Auditing or Clock 인터페이스 -> 구현 후 주입으로 변경예정
+	@Column(name = "created_at")
+	private LocalDateTime createdAt = LocalDateTime.now();
+
 	public Place(
 		final Long id,
 		final String name,
