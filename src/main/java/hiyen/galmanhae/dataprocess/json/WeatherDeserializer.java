@@ -5,18 +5,18 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import hiyen.galmanhae.dataprocess.dto.WeatherDTO;
+import hiyen.galmanhae.dataprocess.dto.WeatherResponse;
 import java.io.IOException;
 
-public class WeatherDeserializer extends JsonDeserializer<WeatherDTO> {
+public class WeatherDeserializer extends JsonDeserializer<WeatherResponse> {
 
 	@Override
-	public WeatherDTO deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
+	public WeatherResponse deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
 		throws IOException {
-		ObjectCodec codec = jsonParser.getCodec();
-		JsonNode rootNode = codec.readTree(jsonParser);
+		final ObjectCodec codec = jsonParser.getCodec();
+		final JsonNode rootNode = codec.readTree(jsonParser);
 
-		JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
+		final JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
 
 		String temperature = null;
 		String rainingProbability = null;
@@ -31,6 +31,6 @@ public class WeatherDeserializer extends JsonDeserializer<WeatherDTO> {
 			}
 		}
 
-		return new WeatherDTO(temperature, rainingProbability);
+		return new WeatherResponse(temperature, rainingProbability);
 	}
 }
