@@ -15,6 +15,7 @@ spring:
 
 logging:
   level:
+    hiyen.galmanhae.dataprocess: DEBUG
     org.hibernate.type.descriptor.sql:
       BasicBinder: TRACE
     org.springframework: DEBUG
