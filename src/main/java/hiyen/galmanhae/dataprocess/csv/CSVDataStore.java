@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DataStore {
+public class CSVDataStore {
 
 	private final DataParser dataParser;
 	private List<PlaceInfo> placeInfos;
@@ -22,23 +22,5 @@ public class DataStore {
 
 	public List<PlaceInfo> getPlaceInfos() {
 		return placeInfos;
-	}
-
-	public List<AreaInfo> getAreas() {
-		return placeInfos.stream()
-			.map(PlaceInfo::areaInfo)
-			.toList();
-	}
-
-	public List<LocationInfo> getLocations() {
-		return placeInfos.stream()
-			.map(PlaceInfo::locationInfo)
-			.toList();
-	}
-
-	public List<WeatherInfo> getWeathers() {
-		return placeInfos.stream()
-			.map(PlaceInfo::weatherInfo)
-			.toList();
 	}
 }

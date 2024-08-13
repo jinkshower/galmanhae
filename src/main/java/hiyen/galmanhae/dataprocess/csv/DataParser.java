@@ -20,7 +20,7 @@ public class DataParser {
 	 * CSV 파일을 읽고 PlaceInfo 객체로 변환한다
 	 */
 	public List<PlaceInfo> readCSV() {
-		List<PlaceInfo> placeInfos;
+		final List<PlaceInfo> placeInfos;
 
 		try (final BufferedReader reader = Files.newBufferedReader(Paths.get(CSV_FILE))) {
 			placeInfos = reader.lines()
