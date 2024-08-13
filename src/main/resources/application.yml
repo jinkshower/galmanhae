@@ -18,3 +18,4 @@ logging:
     org.hibernate.type.descriptor.sql:
       BasicBinder: TRACE
     org.springframework: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
