@@ -20,3 +20,7 @@ logging:
       BasicBinder: TRACE
     org.springframework: DEBUG
     org.springframework.cloud.openfeign: DEBUG
+
+dataprocess:
+  locationfile:
+    path: location_mapping.csv
