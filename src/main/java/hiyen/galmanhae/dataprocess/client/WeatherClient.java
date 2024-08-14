@@ -1,6 +1,6 @@
 package hiyen.galmanhae.dataprocess.client;
 
-import hiyen.galmanhae.dataprocess.dto.WeatherResponse;
+import hiyen.galmanhae.dataprocess.client.response.WeatherResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
