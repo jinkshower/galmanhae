@@ -13,6 +13,7 @@ public class DataSaveService {
 	private final PlaceRepository placeRepository;
 
 	public void saveAll(final List<Place> places) {
+		//TODO 벌크 insert로 변경예정
 		placeRepository.saveAll(places);
 	}
 }
