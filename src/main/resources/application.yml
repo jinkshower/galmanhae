@@ -12,7 +12,17 @@ spring:
         show_sql: true
         format_sql: true
     show-sql: true
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+      client:
+        config:
+            default:
+                connect-timeout: 3000
+                read-timeout: 3000
 
+# logging
 logging:
   level:
     hiyen.galmanhae.dataprocess: DEBUG
@@ -21,6 +31,17 @@ logging:
     org.springframework: DEBUG
     org.springframework.cloud.openfeign: DEBUG
 
+# file path
 dataprocess:
   locationfile:
     path: location_mapping.csv
+
+# feign values
+client:
+  congestion:
+    url: http://openapi.seoul.go.kr:8088
+    service-key: 7a6a64746161736b3638785a6a5969
+  weather:
+    url: http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0
+    service-key: haOR%2F%2BX0ZiSttZyEP6tIGmnLnbOzCvyOL8RCjZOmg23EGAGwEps1K22f%2FiPk8F75oVRxarkMET6T1d1dLoGXTw%3D%3D
+
