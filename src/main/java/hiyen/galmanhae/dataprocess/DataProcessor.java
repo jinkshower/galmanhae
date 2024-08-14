@@ -36,7 +36,7 @@ public class DataProcessor {
 		for (final PlaceInfo placeInfo : placeInfos) {
 			final Place place = aggregatePlace(placeInfo);
 			places.add(place);
-			break;
+//			break;
 		}
 
 		dataSaveService.saveAll(places);
