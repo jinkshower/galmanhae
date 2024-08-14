@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import hiyen.galmanhae.dataprocess.client.response.WeatherResponse.WeatherDeserializer;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.InvalidDataException;
 import java.io.IOException;
+import org.springframework.util.StringUtils;
 
 @JsonDeserialize(using = WeatherDeserializer.class)
 public record WeatherResponse(
@@ -15,6 +17,13 @@ public record WeatherResponse(
 	String temperature,
 	String rainingProbability
 ) {
+
+	public WeatherResponse {
+		if (!StringUtils.hasText(temperature) || !StringUtils.hasText(rainingProbability)) {
+			throw new InvalidDataException();
+		}
+	}
+
 	static class WeatherDeserializer extends JsonDeserializer<WeatherResponse> {
 
 		@Override

@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import hiyen.galmanhae.dataprocess.client.response.CongestionResponse.CongestionDeserializer;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.InvalidDataException;
 import java.io.IOException;
+import org.springframework.util.StringUtils;
 
 @JsonDeserialize(using = CongestionDeserializer.class)
 public record CongestionResponse(
@@ -15,6 +17,13 @@ public record CongestionResponse(
 	String congestionLevel,
 	String populationMin
 ) {
+
+	public CongestionResponse {
+		if (!StringUtils.hasText(congestionLevel) || !StringUtils.hasText(populationMin)) {
+			throw new InvalidDataException();
+		}
+	}
+
 	static class CongestionDeserializer extends JsonDeserializer<CongestionResponse> {
 
 		@Override
