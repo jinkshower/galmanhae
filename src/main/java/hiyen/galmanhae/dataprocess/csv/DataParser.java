@@ -3,7 +3,7 @@ package hiyen.galmanhae.dataprocess.csv;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.AreaInfo;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.LocationInfo;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.WeatherInfo;
-import hiyen.galmanhae.dataprocess.exception.DataProcessingException.FailReadingFileException;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailReadingFileException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
