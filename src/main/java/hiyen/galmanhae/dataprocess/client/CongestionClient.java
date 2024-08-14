@@ -1,6 +1,6 @@
 package hiyen.galmanhae.dataprocess.client;
 
-import hiyen.galmanhae.dataprocess.dto.CongestionResponse;
+import hiyen.galmanhae.dataprocess.client.response.CongestionResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

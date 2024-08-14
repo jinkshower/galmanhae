@@ -1,7 +1,7 @@
 package hiyen.galmanhae.dataprocess.application;
 
 import hiyen.galmanhae.dataprocess.client.WeatherClient;
-import hiyen.galmanhae.dataprocess.dto.WeatherResponse;
+import hiyen.galmanhae.dataprocess.client.response.WeatherResponse;
 import hiyen.galmanhae.place.domain.vo.Weather;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
