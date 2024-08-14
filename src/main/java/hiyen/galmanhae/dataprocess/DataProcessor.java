@@ -52,15 +52,13 @@ public class DataProcessor {
 		dataSaveService.saveAll(places);
 	}
 
+
 	private CompletableFuture<Place> toFuture(final PlaceInfo placeInfo) {
-		return CompletableFuture.supplyAsync(() -> {
-			try {
-				return aggregatePlace(placeInfo);
-			} catch (DataProcessUncheckedException e) { // 외부 API 예외 처리 지점을 하나로 모음
-				log.warn("외부 API 호출 및 가져오기에 실패했습니다: {}. Error: {}", placeInfo, e.getMessage(), e);
+		return CompletableFuture.supplyAsync(() -> aggregatePlace(placeInfo))
+			.exceptionally(exception -> {
+				log.warn("외부 API 호출 및 가져오기에 실패했습니다: {}. Error: {}", placeInfo, exception.getMessage(), exception);
 				return null;
-			}
-		});
+			});
 	}
 
 	private Place aggregatePlace(final PlaceInfo placeInfo) {
