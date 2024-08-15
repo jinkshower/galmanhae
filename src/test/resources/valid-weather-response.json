@@ -1,0 +1,18 @@
+{
+  "response": {
+    "body": {
+      "items": {
+        "item": [
+          {
+            "category": "TMP",
+            "fcstValue": "20.0"
+          },
+          {
+            "category": "POP",
+            "fcstValue": "30.0"
+          }
+        ]
+      }
+    }
+  }
+}
