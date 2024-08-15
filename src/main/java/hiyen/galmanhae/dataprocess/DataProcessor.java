@@ -8,7 +8,6 @@ import hiyen.galmanhae.dataprocess.csv.PlaceInfo;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.AreaInfo;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.LocationInfo;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.WeatherInfo;
-import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException;
 import hiyen.galmanhae.place.domain.Place;
 import hiyen.galmanhae.place.domain.Place.GoOutLevel;
 import hiyen.galmanhae.place.domain.vo.Congestion;

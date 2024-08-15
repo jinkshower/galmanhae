@@ -18,7 +18,6 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(properties = {
 	"dataprocess.locationfile.path=test-location_mapping.csv"
 })
-
 class DataProcessorIntegrationTest extends MockAPI {
 
 	@Autowired
