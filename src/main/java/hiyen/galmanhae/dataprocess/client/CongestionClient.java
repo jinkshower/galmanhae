@@ -22,6 +22,7 @@ public interface CongestionClient {
 	@GetMapping("/${client.congestion.service-key}/json/citydata_ppltn/1/1/{area-code}")
 	CongestionResponse fetch(@PathVariable("area-code") String areaCode) throws FailFetchAPIException;
 
+	//TODO 예외 처리 방법 재고려 필요
 	@Slf4j
 	@Component
 	class CongestionClientFallbackFactory implements FallbackFactory<CongestionClient> {

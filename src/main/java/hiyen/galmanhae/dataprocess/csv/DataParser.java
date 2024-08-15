@@ -26,6 +26,7 @@ public class DataParser {
 	/*
 	 * CSV 파일을 읽고 PlaceInfo 객체로 변환한다
 	 */
+	//TODO 하드코딩을 대체할 방법 고려 필요 - Enum을 생각중
 	public List<PlaceInfo> readCSV() {
 		final List<PlaceInfo> placeInfos;
 
