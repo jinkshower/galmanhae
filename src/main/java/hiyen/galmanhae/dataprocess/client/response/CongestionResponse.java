@@ -1,44 +1,65 @@
 package hiyen.galmanhae.dataprocess.client.response;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import hiyen.galmanhae.dataprocess.client.response.CongestionResponse.CongestionDeserializer;
-import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.InvalidDataException;
-import java.io.IOException;
-import org.springframework.util.StringUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-@JsonDeserialize(using = CongestionDeserializer.class)
+/**
+ * 서울시 실시간 인구데이터 API 응답 클래스 필요한 정보는
+ * 지역 혼잡도 지표(AREA_CONGEST_LVL)와 실시간 인구수(AREA_PPLTN_MIN)
+ */
 public record CongestionResponse(
-
-	String congestionLevel,
-	String populationMin
+	@JsonProperty("SeoulRtd.citydata_ppltn") List<CityData> seoulCityDatas,
+	@JsonProperty("RESULT") Result result
 ) {
 
-	public CongestionResponse {
-		if (!StringUtils.hasText(congestionLevel) || !StringUtils.hasText(populationMin)) {
-			throw new InvalidDataException();
-		}
+	public String getCongestionLevel() {
+		return seoulCityDatas.get(0).areaCongestionLevel();
 	}
 
-	static class CongestionDeserializer extends JsonDeserializer<CongestionResponse> {
+	public String getPopulation() {
+		return seoulCityDatas.get(0).areaPopulationMin();
+	}
 
-		@Override
-		public CongestionResponse deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
-			throws IOException {
-			final ObjectCodec codec = jsonParser.getCodec();
-			final JsonNode rootNode = codec.readTree(jsonParser);
+	private record CityData(
+		@JsonProperty("AREA_NM") String areaName,
+		@JsonProperty("AREA_CD") String areaCode,
+		@JsonProperty("AREA_CONGEST_LVL") String areaCongestionLevel,
+		@JsonProperty("AREA_CONGEST_MSG") String areaCongestionMessage,
+		@JsonProperty("AREA_PPLTN_MIN") String areaPopulationMin,
+		@JsonProperty("AREA_PPLTN_MAX") String areaPopulationMax,
+		@JsonProperty("MALE_PPLTN_RATE") String malePopulationRate,
+		@JsonProperty("FEMALE_PPLTN_RATE") String femalePopulationRate,
+		@JsonProperty("PPLTN_RATE_0") String populationRate0,
+		@JsonProperty("PPLTN_RATE_10") String populationRate10,
+		@JsonProperty("PPLTN_RATE_20") String populationRate20,
+		@JsonProperty("PPLTN_RATE_30") String populationRate30,
+		@JsonProperty("PPLTN_RATE_40") String populationRate40,
+		@JsonProperty("PPLTN_RATE_50") String populationRate50,
+		@JsonProperty("PPLTN_RATE_60") String populationRate60,
+		@JsonProperty("PPLTN_RATE_70") String populationRate70,
+		@JsonProperty("RESNT_PPLTN_RATE") String residentPopulationRate,
+		@JsonProperty("NON_RESNT_PPLTN_RATE") String nonResidentPopulationRate,
+		@JsonProperty("REPLACE_YN") String replaceYesNo,
+		@JsonProperty("PPLTN_TIME") String populationTime,
+		@JsonProperty("FCST_YN") String forecastYesNo,
+		@JsonProperty("FCST_PPLTN") List<ForecastPopulation> forecastPopulation
+	) {
 
-			// "SeoulRtd.citydata_ppltn"에서 첫 번째 객체를 가져옵니다.
-			final JsonNode itemNode = rootNode.path("SeoulRtd.citydata_ppltn").get(0);
+	}
 
-			final String congestionLevel = itemNode.get("AREA_CONGEST_LVL").asText();
-			final String populationMin = itemNode.get("AREA_PPLTN_MIN").asText();
+	private record ForecastPopulation(
+		@JsonProperty("FCST_TIME") String forecastTime,
+		@JsonProperty("FCST_CONGEST_LVL") String forecastCongestionLevel,
+		@JsonProperty("FCST_PPLTN_MIN") String forecastPopulationMin,
+		@JsonProperty("FCST_PPLTN_MAX") String forecastPopulationMax
+	) {
 
-			return new CongestionResponse(congestionLevel, populationMin);
-		}
+	}
+
+	private record Result(
+		@JsonProperty("RESULT.CODE") String resultCode,
+		@JsonProperty("RESULT.MESSAGE") String resultMessage
+	) {
+
 	}
 }

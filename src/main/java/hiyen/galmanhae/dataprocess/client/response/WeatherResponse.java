@@ -1,53 +1,73 @@
 package hiyen.galmanhae.dataprocess.client.response;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import hiyen.galmanhae.dataprocess.client.response.WeatherResponse.WeatherDeserializer;
-import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.InvalidDataException;
-import java.io.IOException;
-import org.springframework.util.StringUtils;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
-@JsonDeserialize(using = WeatherDeserializer.class)
+/**
+ * 기상청 단기예보 API 응답 클래스 필요한 정보는
+ * 기온(TMP) 강수확률(POP) 카테고리의 forecastValue
+ */
 public record WeatherResponse(
-
-	String temperature,
-	String rainingProbability
+	@JsonProperty("response") Response response
 ) {
 
-	public WeatherResponse {
-		if (!StringUtils.hasText(temperature) || !StringUtils.hasText(rainingProbability)) {
-			throw new InvalidDataException();
-		}
+	public String getTemperature() {
+		return findForecastValueByCategory("TMP");
 	}
 
-	static class WeatherDeserializer extends JsonDeserializer<WeatherResponse> {
+	public String getRainingProbability() {
+		return findForecastValueByCategory("POP");
+	}
 
-		@Override
-		public WeatherResponse deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
-			throws IOException {
-			final ObjectCodec codec = jsonParser.getCodec();
-			final JsonNode rootNode = codec.readTree(jsonParser);
-
-			final JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
-
-			String temperature = null;
-			String rainingProbability = null;
-
-			for (JsonNode itemNode : itemsNode) {
-				String category = itemNode.get("category").asText();
-
-				if ("TMP".equals(category)) {
-					temperature = itemNode.get("fcstValue").asText();  // TMP는 기온 값
-				} else if ("POP".equals(category)) {
-					rainingProbability = itemNode.get("fcstValue").asText();  // POP는 강수확률
-				}
+	private String findForecastValueByCategory(String category) {
+		for (final Item item : response.body().items().item()) {
+			if (category.equals(item.category())) {
+				return item.forecastValue();
 			}
-
-			return new WeatherResponse(temperature, rainingProbability);
 		}
+		return null;
+	}
+
+	private record Response(
+		@JsonProperty("header") Header header,
+		@JsonProperty("body") Body body
+	) {
+
+	}
+
+	private record Header(
+		@JsonProperty("resultCode") String resultCode,
+		@JsonProperty("resultMsg") String resultMessage
+	) {
+
+	}
+
+	private record Body(
+		@JsonProperty("dataType") String dataType,
+		@JsonProperty("items") Items items,
+		@JsonProperty("pageNo") int pageNo,
+		@JsonProperty("numOfRows") int numOfRows,
+		@JsonProperty("totalCount") int totalCount
+	) {
+
+	}
+
+	private record Items(
+		@JsonProperty("item") List<Item> item
+	) {
+
+	}
+
+	private record Item(
+		@JsonProperty("baseDate") String baseDate,
+		@JsonProperty("baseTime") String baseTime,
+		@JsonProperty("category") String category,
+		@JsonProperty("fcstDate") String forecastDate,
+		@JsonProperty("fcstTime") String forecastTime,
+		@JsonProperty("fcstValue") String forecastValue,
+		@JsonProperty("nx") int nx,
+		@JsonProperty("ny") int ny
+	) {
+
 	}
 }

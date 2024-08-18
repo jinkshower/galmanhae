@@ -23,6 +23,6 @@ public class CongestionService {
 			throw new FailFetchAPIUncheckedException(e);
 		}
 
-		return Congestion.of(Integer.valueOf(response.populationMin()), response.congestionLevel());
+		return Congestion.of(Integer.valueOf(response.getPopulation()), response.getCongestionLevel());
 	}
 }
