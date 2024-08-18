@@ -17,23 +17,17 @@ public class WeatherService {
 	private final WeatherClient weatherClient;
 
 	public Weather fetch(final String latitude, final String longitude) {
+		final LocalDateTime now = LocalDateTime.now();
 		final WeatherResponse response;
 		try {
-			response = weatherClient.fetch(baseDate(), calculateBaseTime(), latitude, longitude);
+			response = weatherClient.fetch(baseDate(now), WeatherBaseTime.of(now).getBaseTime(), latitude, longitude);
 		} catch (FailFetchAPIException e) {
 			throw new FailFetchAPIUncheckedException(e);
 		}
 		return Weather.of(Double.valueOf(response.getTemperature()), Double.valueOf(response.getRainingProbability()));
 	}
 
-	private String baseDate() {
-		final LocalDateTime now = LocalDateTime.now();
+	private String baseDate(final LocalDateTime now) {
 		return now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-	}
-
-	private String calculateBaseTime() {
-		//TODO 단기예보가 갱신 - 0500 부터 세시간 씩
-		// 이 중 현재시간과 가장 가까운 시간을 계산해야함. 현재는 05시로 고정
-		return "0500";
 	}
 }
