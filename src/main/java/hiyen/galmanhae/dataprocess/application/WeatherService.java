@@ -23,7 +23,7 @@ public class WeatherService {
 		} catch (FailFetchAPIException e) {
 			throw new FailFetchAPIUncheckedException(e);
 		}
-		return Weather.of(Double.valueOf(response.temperature()), Double.valueOf(response.rainingProbability()));
+		return Weather.of(Double.valueOf(response.getTemperature()), Double.valueOf(response.getRainingProbability()));
 	}
 
 	private String baseDate() {
