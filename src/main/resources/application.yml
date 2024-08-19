@@ -42,4 +42,5 @@ client:
   weather:
     url: http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0
     service-key: haOR%2F%2BX0ZiSttZyEP6tIGmnLnbOzCvyOL8RCjZOmg23EGAGwEps1K22f%2FiPk8F75oVRxarkMET6T1d1dLoGXTw%3D%3D
-
+  poi:
+    url: https://datafile.seoul.go.kr/bigfile/iot/inf/nio_download.do?&useCache=false

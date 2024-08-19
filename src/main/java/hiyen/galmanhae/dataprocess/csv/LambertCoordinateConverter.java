@@ -1,4 +1,4 @@
-package hiyen.galmanhae.dataprocess.application;
+package hiyen.galmanhae.dataprocess.csv;
 
 import org.springframework.stereotype.Component;
 

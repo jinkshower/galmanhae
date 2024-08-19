@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class CSVDataStore {
 
 	private final DataParser dataParser;
-	//TODO 동시성을 고려해야할까요?
 	private List<PlaceInfo> placeInfos = new ArrayList<>();
 
 	@PostConstruct
