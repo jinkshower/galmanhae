@@ -21,8 +21,8 @@ public record PlaceInfo(
 	}
 
 	public record WeatherInfo(
-		String latitude,
-		String longitude
+		String weatherX,
+		String weatherY
 	) {
 
 	}

@@ -1,9 +1,8 @@
 package hiyen.galmanhae.dataprocess;
 
 import hiyen.galmanhae.dataprocess.application.CongestionService;
-import hiyen.galmanhae.dataprocess.application.DataSaveService;
+import hiyen.galmanhae.dataprocess.application.DataQueryService;
 import hiyen.galmanhae.dataprocess.application.WeatherService;
-import hiyen.galmanhae.dataprocess.csv.CSVDataStore;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.AreaInfo;
 import hiyen.galmanhae.dataprocess.csv.PlaceInfo.LocationInfo;
@@ -28,15 +27,14 @@ public class DataProcessor {
 
 	private final WeatherService weatherService;
 	private final CongestionService congestionService;
-	private final DataSaveService dataSaveService;
-	private final CSVDataStore csvDataStore;
+	private final DataQueryService dataQueryService;
 
 	/**
 	 * CSV 파일의 장소 정보를 토대로 외부 API를 호출하여 데이터를 가져오고 DB에 저장
 	 * 외부 API 호출 및 데이터 가져오기에 실패한 경우, 로그를 남기고 해당 데이터는 저장하지 않음
 	 */
 	public void process() {
-		final List<PlaceInfo> placeInfos = csvDataStore.getPlaceInfos();
+		final List<PlaceInfo> placeInfos = dataQueryService.findAllPlaceInfos();
 		final List<CompletableFuture<Place>> futures = new ArrayList<>();
 
 		for (final PlaceInfo placeInfo : placeInfos) {
@@ -48,9 +46,8 @@ public class DataProcessor {
 			.filter(Objects::nonNull)
 			.toList();
 
-		dataSaveService.saveAll(places);
+		dataQueryService.saveAllPlaces(places);
 	}
-
 
 	private CompletableFuture<Place> toFuture(final PlaceInfo placeInfo) {
 		return CompletableFuture.supplyAsync(() -> aggregatePlace(placeInfo))
@@ -66,7 +63,7 @@ public class DataProcessor {
 		final WeatherInfo weatherInfo = placeInfo.weatherInfo();
 
 		final Congestion congestion = congestionService.fetch(areaInfo.areaCode());
-		final Weather weather = weatherService.fetch(weatherInfo.latitude(), weatherInfo.longitude());
+		final Weather weather = weatherService.fetch(weatherInfo.weatherX(), weatherInfo.weatherY());
 		final Location location = Location.of(Double.valueOf(locationInfo.latitude()), Double.valueOf(locationInfo.longitude()));
 
 		return PlaceMapper.toPlace(areaInfo.areaName(), location, weather, congestion);
