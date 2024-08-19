@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import hiyen.galmanhae.dataprocess.MockAPI;
-import hiyen.galmanhae.dataprocess.exception.DataProcessCheckedException.FailFetchAPIException;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
 import hiyen.galmanhae.place.domain.vo.Weather;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -57,7 +57,7 @@ class WeatherServiceTest extends MockAPI {
 			);
 
 			assertThatThrownBy(() -> weatherService.fetch(latitude, longitude))
-				.hasCauseInstanceOf(FailFetchAPIException.class);
+				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 
 
@@ -71,7 +71,7 @@ class WeatherServiceTest extends MockAPI {
 			);
 
 			assertThatThrownBy(() -> weatherService.fetch(latitude, longitude))
-				.hasCauseInstanceOf(FailFetchAPIException.class);
+				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 
 		@DisplayName("실패 - 200이 아닌 응답")
@@ -82,7 +82,7 @@ class WeatherServiceTest extends MockAPI {
 			);
 
 			assertThatThrownBy(() -> weatherService.fetch(latitude, longitude))
-				.hasCauseInstanceOf(FailFetchAPIException.class);
+				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 	}
 

@@ -14,8 +14,6 @@ spring:
     show-sql: true
   cloud:
     openfeign:
-      circuitbreaker:
-        enabled: true
       client:
         config:
             default:
