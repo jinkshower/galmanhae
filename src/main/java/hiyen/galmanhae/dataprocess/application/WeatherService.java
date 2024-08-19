@@ -2,7 +2,6 @@ package hiyen.galmanhae.dataprocess.application;
 
 import hiyen.galmanhae.dataprocess.client.WeatherClient;
 import hiyen.galmanhae.dataprocess.client.response.WeatherResponse;
-import hiyen.galmanhae.dataprocess.exception.DataProcessCheckedException.FailFetchAPIException;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
 import hiyen.galmanhae.place.domain.vo.Weather;
 import java.time.LocalDateTime;
@@ -21,7 +20,7 @@ public class WeatherService {
 		final WeatherResponse response;
 		try {
 			response = weatherClient.fetch(baseDate(now), WeatherBaseTime.of(now).getBaseTime(), latitude, longitude);
-		} catch (FailFetchAPIException e) {
+		} catch (Exception e) {
 			throw new FailFetchAPIUncheckedException(e);
 		}
 		return Weather.of(Double.valueOf(response.getTemperature()), Double.valueOf(response.getRainingProbability()));

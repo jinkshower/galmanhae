@@ -2,12 +2,13 @@ package hiyen.galmanhae.dataprocess.application;
 
 import hiyen.galmanhae.dataprocess.client.CongestionClient;
 import hiyen.galmanhae.dataprocess.client.response.CongestionResponse;
-import hiyen.galmanhae.dataprocess.exception.DataProcessCheckedException.FailFetchAPIException;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
 import hiyen.galmanhae.place.domain.vo.Congestion;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CongestionService {
@@ -19,7 +20,7 @@ public class CongestionService {
 		final CongestionResponse response;
 		try {
 			response = congestionClient.fetch(areaCode);
-		} catch (FailFetchAPIException e) {
+		} catch (Exception e) {
 			throw new FailFetchAPIUncheckedException(e);
 		}
 
