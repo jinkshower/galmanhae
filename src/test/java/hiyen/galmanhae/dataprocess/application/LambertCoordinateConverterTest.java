@@ -2,6 +2,7 @@ package hiyen.galmanhae.dataprocess.application;
 
 import static org.assertj.core.api.Assertions.*;
 
+import hiyen.galmanhae.dataprocess.csv.LambertCoordinateConverter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
