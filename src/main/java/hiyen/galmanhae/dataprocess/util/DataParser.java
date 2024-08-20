@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class DataParser {
 	public Map<String, byte[]> processZipFile(final InputStream inputStream) {
 		final Map<String, byte[]> extractedFiles = new HashMap<>();
 
-		try (final ZipInputStream zipInputStream = new ZipInputStream(inputStream, Charset.forName("EUC-KR"))) {
+		try (final ZipInputStream zipInputStream = new ZipInputStream(inputStream, StandardCharsets.UTF_8)) {
 			ZipEntry entry;
 			while ((entry = zipInputStream.getNextEntry()) != null) { //하나의 엔트리를 읽어옴
 				final String fileName = entry.getName(); //엔트리의 이름을 가져옴
@@ -66,11 +66,11 @@ public class DataParser {
 		return extractedFiles;
 	}
 
-	public List<PlaceInfo> parse(final Map<String, byte[]> fileMap) throws IOException {
+	public List<PlaceInfo> parse(final Map<String, byte[]> fileMap, final String fileName) throws IOException {
 		// fileMap에 저장된 파일들을 각각의 확장자에 맞게 임시파일로 생성.
-		final File shpTempFile = createTempFile(".shp", fileMap.get("서울시 주요 115장소 영역.shp"));
-		final File shxTempFile = createTempFile(".shx", fileMap.get("서울시 주요 115장소 영역.shx"));
-		final File dbfTempFile = createTempFile(".dbf", fileMap.get("서울시 주요 115장소 영역.dbf"));
+		final File shpTempFile = createTempFile(".shp", fileMap.get(fileName + ".shp"));
+		final File shxTempFile = createTempFile(".shx", fileMap.get(fileName + ".shx"));
+		final File dbfTempFile = createTempFile(".dbf", fileMap.get(fileName + ".dbf"));
 
 		// shapefile의 URL을 생성
 		final URL shpUrl = shpTempFile.toURI().toURL();
@@ -78,7 +78,7 @@ public class DataParser {
 		// shape file 데이터스토어를 생성하기 위한 맵 객체 생성
 		final Map<String, Object> map = new HashMap<>();
 		map.put("url", shpUrl);
-		map.put(ShapefileDataStoreFactory.DBFCHARSET.key, Charset.forName("EUC-KR"));
+		map.put(ShapefileDataStoreFactory.DBFCHARSET.key, StandardCharsets.UTF_8);
 
 		final ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
 		final ShapefileDataStore dataStore = (ShapefileDataStore) dataStoreFactory.createDataStore(map);
@@ -100,7 +100,7 @@ public class DataParser {
 
 				int[] converted = lambertCoordinateConverter.convert(latitude, longitude);// 위도와 경도를 람베르트 좌표계로 변환
 
-				final AreaInfo areaInfo = new AreaInfo(name, code);
+				final AreaInfo areaInfo = new AreaInfo(code, name);
 				final LocationInfo locationInfo = new LocationInfo(String.valueOf(latitude), String.valueOf(longitude));
 				final WeatherInfo weatherInfo = new WeatherInfo(String.valueOf(converted[0]), String.valueOf(converted[1]));
 				placeInfos.add(new PlaceInfo(areaInfo, locationInfo, weatherInfo));
