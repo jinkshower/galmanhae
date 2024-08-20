@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.*;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import hiyen.galmanhae.dataprocess.MockAPI;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
-import hiyen.galmanhae.place.domain.vo.Weather;
+import hiyen.galmanhae.place.domain.place.Weather;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;

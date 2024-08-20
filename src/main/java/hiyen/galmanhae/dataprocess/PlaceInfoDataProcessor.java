@@ -2,8 +2,8 @@ package hiyen.galmanhae.dataprocess;
 
 import hiyen.galmanhae.dataprocess.application.DataQueryService;
 import hiyen.galmanhae.dataprocess.application.PlaceInfoService;
-import hiyen.galmanhae.dataprocess.csv.DataParser;
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo;
+import hiyen.galmanhae.dataprocess.util.DataParser;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailReadingFileException;
 import jakarta.annotation.PostConstruct;
 import java.util.List;

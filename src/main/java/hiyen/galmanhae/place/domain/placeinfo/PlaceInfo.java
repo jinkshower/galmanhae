@@ -1,4 +1,4 @@
-package hiyen.galmanhae.dataprocess.csv;
+package hiyen.galmanhae.place.domain.placeinfo;
 
 public record PlaceInfo(
 	AreaInfo areaInfo,

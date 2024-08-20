@@ -1,12 +1,13 @@
-package hiyen.galmanhae.place.domain;
+package hiyen.galmanhae.place.domain.place;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import hiyen.galmanhae.place.domain.Place.GoOutLevel;
-import hiyen.galmanhae.place.domain.vo.Congestion;
-import hiyen.galmanhae.place.domain.vo.Location;
-import hiyen.galmanhae.place.domain.vo.Weather;
+import hiyen.galmanhae.place.domain.place.Place;
+import hiyen.galmanhae.place.domain.place.Place.GoOutLevel;
+import hiyen.galmanhae.place.domain.place.Congestion;
+import hiyen.galmanhae.place.domain.place.Location;
+import hiyen.galmanhae.place.domain.place.Weather;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package hiyen.galmanhae.place.domain.vo;
+package hiyen.galmanhae.place.domain.place;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

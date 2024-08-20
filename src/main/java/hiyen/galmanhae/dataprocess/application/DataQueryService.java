@@ -1,10 +1,10 @@
 package hiyen.galmanhae.dataprocess.application;
 
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo;
-import hiyen.galmanhae.place.domain.Place;
-import hiyen.galmanhae.place.domain.PlaceInfoEntity;
-import hiyen.galmanhae.place.domain.repository.PlaceInfoRepository;
-import hiyen.galmanhae.place.domain.repository.PlaceRepository;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
+import hiyen.galmanhae.place.domain.place.Place;
+import hiyen.galmanhae.place.entity.PlaceInfoEntity;
+import hiyen.galmanhae.place.repository.PlaceInfoRepository;
+import hiyen.galmanhae.place.repository.PlaceRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

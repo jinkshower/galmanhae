@@ -3,7 +3,7 @@ package hiyen.galmanhae.dataprocess.application;
 import hiyen.galmanhae.dataprocess.client.WeatherClient;
 import hiyen.galmanhae.dataprocess.client.response.WeatherResponse;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
-import hiyen.galmanhae.place.domain.vo.Weather;
+import hiyen.galmanhae.place.domain.place.Weather;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
