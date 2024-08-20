@@ -6,6 +6,7 @@ import hiyen.galmanhae.dataprocess.util.DataParser;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailReadingFileException;
 import jakarta.annotation.PostConstruct;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,11 @@ public class PlaceInfoDataProcessor {
 	 */
 	@PostConstruct
 	public void process() {
-		Map<String, byte[]> fetch = placeInfoService.fetch();
+		final InputStream fetch = placeInfoService.fetch();
 		List<PlaceInfo> placeInfos;
 		try {
-			placeInfos = dataParser.parse(fetch);
+			Map<String, byte[]> fileMap = dataParser.processZipFile(fetch);
+			placeInfos = dataParser.parse(fileMap);
 		} catch (Exception e) {
 			throw new FailReadingFileException(e);
 		}
