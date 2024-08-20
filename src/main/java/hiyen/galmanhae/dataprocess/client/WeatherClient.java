@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
 	name = "weatherClient",
-	url = "${client.weather.url}"
+	url = "${client.weather.url}",
+	configuration = FeignConfig.class
 )
 @CircuitBreaker(name = "circuit")
 public interface WeatherClient {

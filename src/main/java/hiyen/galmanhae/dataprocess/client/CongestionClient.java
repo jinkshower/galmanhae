@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
 	name = "congestionClient",
-	url = "${client.congestion.url}"
+	url = "${client.congestion.url}",
+	configuration = FeignConfig.class
 )
 public interface CongestionClient {
 
