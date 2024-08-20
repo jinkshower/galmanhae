@@ -3,15 +3,15 @@ package hiyen.galmanhae.dataprocess;
 import hiyen.galmanhae.dataprocess.application.CongestionService;
 import hiyen.galmanhae.dataprocess.application.DataQueryService;
 import hiyen.galmanhae.dataprocess.application.WeatherService;
+import hiyen.galmanhae.place.domain.place.Congestion;
+import hiyen.galmanhae.place.domain.place.Location;
+import hiyen.galmanhae.place.domain.place.Place;
+import hiyen.galmanhae.place.domain.place.Place.GoOutLevel;
+import hiyen.galmanhae.place.domain.place.Weather;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
-import hiyen.galmanhae.place.domain.place.Place;
-import hiyen.galmanhae.place.domain.place.Place.GoOutLevel;
-import hiyen.galmanhae.place.domain.place.Congestion;
-import hiyen.galmanhae.place.domain.place.Location;
-import hiyen.galmanhae.place.domain.place.Weather;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +39,6 @@ public class DataProcessor {
 
 		for (final PlaceInfo placeInfo : placeInfos) {
 			futures.add(toFuture(placeInfo));
-			break;
 		}
 
 		final List<Place> places = futures.stream()
