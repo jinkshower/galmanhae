@@ -44,8 +44,8 @@ class WeatherServiceTest extends MockAPI {
 			final Weather actual = weatherService.fetch(latitude, longitude);
 
 			assertThat(actual).isNotNull();
-			assertThat(actual.getWeatherTemp()).isEqualTo(expectedTemp);
-			assertThat(actual.getWeatherRaining()).isEqualTo(expectedRaining);
+			assertThat(actual.weatherTemp()).isEqualTo(expectedTemp);
+			assertThat(actual.weatherRaining()).isEqualTo(expectedRaining);
 		}
 
 		@DisplayName("실패 - readtimeout")

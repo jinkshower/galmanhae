@@ -1,37 +1,19 @@
 package hiyen.galmanhae.place.domain.place;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.thymeleaf.util.StringUtils;
 
 @Slf4j
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode
-@ToString
-public class Congestion {
+public record Congestion(
+	Integer congestionPeople,
+	CongestionLevel congestionLevel
 
-	@Column(name = "congestion_people")
-	private Integer congestionPeople;
-
-	@Column(name = "congestion_level")
-	@Enumerated(EnumType.STRING)
-	private CongestionLevel congestionLevel;
+) {
 
 	public static Congestion of(final Integer congestionPeople, final String congestionIndicator) {
 		if (Objects.isNull(congestionPeople)) {

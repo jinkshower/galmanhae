@@ -47,8 +47,8 @@ class CongestionServiceTest extends MockAPI {
 			final Congestion actual = congestionService.fetch(areaCode);
 
 			assertThat(actual).isNotNull();
-			assertThat(actual.getCongestionLevel()).isEqualTo(CongestionLevel.NORMAL);
-			assertThat(actual.getCongestionPeople()).isEqualTo(expectedCongestion);
+			assertThat(actual.congestionLevel()).isEqualTo(CongestionLevel.NORMAL);
+			assertThat(actual.congestionPeople()).isEqualTo(expectedCongestion);
 		}
 
 		@DisplayName("실패 - readtimeout")

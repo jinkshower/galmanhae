@@ -2,6 +2,7 @@ package hiyen.galmanhae.dataprocess.application;
 
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import hiyen.galmanhae.place.domain.place.Place;
+import hiyen.galmanhae.place.entity.PlaceEntity;
 import hiyen.galmanhae.place.entity.PlaceInfoEntity;
 import hiyen.galmanhae.place.repository.PlaceInfoRepository;
 import hiyen.galmanhae.place.repository.PlaceRepository;
@@ -18,7 +19,10 @@ public class DataQueryService {
 
 	public void saveAllPlaces(final List<Place> places) {
 		//TODO 벌크 insert로 변경예정
-		placeRepository.saveAll(places);
+		final List<PlaceEntity> list = places.stream()
+			.map(PlaceEntity::from)
+			.toList();
+		placeRepository.saveAll(list);
 	}
 
 	public void saveAllPlaceInfos(final List<PlaceInfo> placeInfos) {
