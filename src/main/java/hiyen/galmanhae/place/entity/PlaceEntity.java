@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-public class PlaceEntity {
+public class PlaceEntity extends BaseEntity {
 
 	@Id
 	@Column(name = "place_id")
