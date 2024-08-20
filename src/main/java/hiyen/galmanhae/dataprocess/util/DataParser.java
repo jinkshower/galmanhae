@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +81,7 @@ public class DataParser {
 		// shape file 데이터스토어를 생성하기 위한 맵 객체 생성
 		final Map<String, Object> map = new HashMap<>();
 		map.put("url", shpUrl);
-		map.put(ShapefileDataStoreFactory.DBFCHARSET.key, StandardCharsets.UTF_8);
+		map.put(ShapefileDataStoreFactory.DBFCHARSET.key, Charset.forName("EUC-KR"));
 
 		final ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
 		final ShapefileDataStore dataStore = (ShapefileDataStore) dataStoreFactory.createDataStore(map);
