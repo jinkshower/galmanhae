@@ -72,7 +72,7 @@ public class DataProcessor {
 
 	private static class PlaceMapper {
 
-		public static Place toPlace(
+		private static Place toPlace(
 			final String name,
 			final Location location,
 			final Weather weather,
