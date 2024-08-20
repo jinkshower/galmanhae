@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -18,22 +19,23 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PlaceInfoDataProcessor {
 
-	private static final String FILE_NAME = "서울시 주요 115장소 영역";
-
 	private final PlaceInfoService placeInfoService;
 	private final DataParser dataParser;
 	private final DataQueryService dataQueryService;
 
+	@Value("${client.placeinfo.filename}")
+	private String fileName;
+
 	/**
 	 * 장소 정보를 다운로드하여 db에 저장
 	 */
-	@PostConstruct
+//	@PostConstruct
 	public void process() {
 		final InputStream fetch = placeInfoService.fetch();
 		List<PlaceInfo> placeInfos;
 		try {
 			Map<String, byte[]> fileMap = dataParser.processZipFile(fetch);
-			placeInfos = dataParser.parse(fileMap, FILE_NAME);
+			placeInfos = dataParser.parse(fileMap, fileName);
 		} catch (Exception e) {
 			throw new FailReadingFileException(e);
 		}
