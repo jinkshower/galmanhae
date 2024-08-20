@@ -1,8 +1,39 @@
 {
   "SeoulRtd.citydata_ppltn": [
     {
+      "AREA_NM": "예시 지역명",
+      "AREA_CD": "12345",
       "AREA_CONGEST_LVL": "보통",
-      "AREA_PPLTN_MIN": "500"
+      "AREA_CONGEST_MSG": "혼잡도 메시지",
+      "AREA_PPLTN_MIN": "500",
+      "AREA_PPLTN_MAX": "1000",
+      "MALE_PPLTN_RATE": "50",
+      "FEMALE_PPLTN_RATE": "50",
+      "PPLTN_RATE_0": "10",
+      "PPLTN_RATE_10": "10",
+      "PPLTN_RATE_20": "10",
+      "PPLTN_RATE_30": "10",
+      "PPLTN_RATE_40": "10",
+      "PPLTN_RATE_50": "10",
+      "PPLTN_RATE_60": "10",
+      "PPLTN_RATE_70": "10",
+      "RESNT_PPLTN_RATE": "70",
+      "NON_RESNT_PPLTN_RATE": "30",
+      "REPLACE_YN": "Y",
+      "PPLTN_TIME": "2023-08-19T10:00:00",
+      "FCST_YN": "Y",
+      "FCST_PPLTN": [
+        {
+          "FCST_TIME": "2023-08-19T11:00:00",
+          "FCST_CONGEST_LVL": "보통",
+          "FCST_PPLTN_MIN": "600",
+          "FCST_PPLTN_MAX": "1200"
+        }
+      ]
     }
-  ]
+  ],
+  "RESULT": {
+    "RESULT.CODE": "00",
+    "RESULT.MESSAGE": "성공"
+  }
 }
