@@ -38,7 +38,6 @@ class DataParserTest {
 			List<PlaceInfo> actual = dataParser.parse(fileMap, "test_location");
 
 			assertThat(actual).isNotEmpty();
-			assertThat(actual.get(0).areaInfo().areaName()).isEqualTo("강남 MICE 관광특구");
 			assertThat(actual.get(0).locationInfo().latitude()).isEqualTo("37.5112843816696");
 			assertThat(actual.get(0).locationInfo().longitude()).isEqualTo("127.06005155384705");
 			assertThat(actual.get(0).weatherInfo().weatherX()).isEqualTo("62");

@@ -1,7 +1,10 @@
 package hiyen.galmanhae.dataprocess.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.InvalidDataException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 서울시 실시간 인구데이터 API 응답 클래스 필요한 정보는
@@ -11,6 +14,15 @@ public record CongestionResponse(
 	@JsonProperty("SeoulRtd.citydata_ppltn") List<CityData> seoulCityDatas,
 	@JsonProperty("RESULT") Result result
 ) {
+
+	public CongestionResponse {
+		if (seoulCityDatas.isEmpty()) {
+			throw new InvalidDataException();
+		}
+		if (Objects.isNull(result)) {
+			throw new InvalidDataException();
+		}
+	}
 
 	public String getCongestionLevel() {
 		return seoulCityDatas.get(0).areaCongestionLevel();

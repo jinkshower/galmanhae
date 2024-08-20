@@ -1,7 +1,10 @@
 package hiyen.galmanhae.dataprocess.client.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.InvalidDataException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 기상청 단기예보 API 응답 클래스 필요한 정보는
@@ -10,6 +13,12 @@ import java.util.List;
 public record WeatherResponse(
 	@JsonProperty("response") Response response
 ) {
+
+	public WeatherResponse {
+		if (Objects.isNull(response)) {
+			throw new InvalidDataException();
+		}
+	}
 
 	public String getTemperature() {
 		return findForecastValueByCategory("TMP");
