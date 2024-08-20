@@ -1,12 +1,15 @@
 package hiyen.galmanhae.dataprocess.util;
 
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -14,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.geotools.data.shapefile.ShapefileDataStore;
@@ -36,6 +41,30 @@ import org.springframework.stereotype.Component;
 public class DataParser {
 
 	private final LambertCoordinateConverter lambertCoordinateConverter;
+
+	public Map<String, byte[]> processZipFile(final InputStream inputStream) {
+		final Map<String, byte[]> extractedFiles = new HashMap<>();
+
+		try (final ZipInputStream zipInputStream = new ZipInputStream(inputStream, Charset.forName("EUC-KR"))) {
+			ZipEntry entry;
+			while ((entry = zipInputStream.getNextEntry()) != null) { //하나의 엔트리를 읽어옴
+				final String fileName = entry.getName(); //엔트리의 이름을 가져옴
+				final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(); //바이트 배열을 저장할 ByteArrayOutputStream 객체 생성
+
+				final byte[] buffer = new byte[4096]; //버퍼 생성
+				int len;
+				while ((len = zipInputStream.read(buffer)) > 0) {
+					byteArrayOutputStream.write(buffer, 0, len); //바이트 배열을 읽어와서 ByteArrayOutputStream에 저장
+				}
+				extractedFiles.put(fileName, byteArrayOutputStream.toByteArray()); //파일 이름과 바이트 배열을 맵에 저장
+				zipInputStream.closeEntry(); //엔트리 닫기
+			}
+		} catch (IOException e) {
+			throw new FailFetchAPIUncheckedException(e);
+		}
+
+		return extractedFiles;
+	}
 
 	public List<PlaceInfo> parse(final Map<String, byte[]> fileMap) throws IOException {
 		// fileMap에 저장된 파일들을 각각의 확장자에 맞게 임시파일로 생성.
