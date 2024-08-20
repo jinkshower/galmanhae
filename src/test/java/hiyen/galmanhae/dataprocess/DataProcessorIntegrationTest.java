@@ -4,7 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
-import hiyen.galmanhae.place.domain.repository.PlaceRepository;
+import hiyen.galmanhae.place.repository.PlaceRepository;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -13,11 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.TestPropertySource;
 
-@TestPropertySource(properties = {
-	"dataprocess.locationfile.path=test-location_mapping.csv"
-})
 class DataProcessorIntegrationTest extends MockAPI {
 
 	@Autowired

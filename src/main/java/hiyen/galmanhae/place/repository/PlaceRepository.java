@@ -1,6 +1,6 @@
-package hiyen.galmanhae.place.domain.repository;
+package hiyen.galmanhae.place.repository;
 
-import hiyen.galmanhae.place.domain.Place;
+import hiyen.galmanhae.place.domain.place.Place;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

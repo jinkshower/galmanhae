@@ -29,11 +29,6 @@ logging:
     org.springframework: DEBUG
     org.springframework.cloud.openfeign: DEBUG
 
-# file path
-dataprocess:
-  locationfile:
-    path: location_mapping.csv
-
 # feign values
 client:
   congestion:

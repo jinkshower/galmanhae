@@ -1,8 +1,8 @@
-package hiyen.galmanhae.dataprocess.application;
+package hiyen.galmanhae.dataprocess.util;
 
 import static org.assertj.core.api.Assertions.*;
 
-import hiyen.galmanhae.dataprocess.csv.LambertCoordinateConverter;
+import hiyen.galmanhae.dataprocess.util.LambertCoordinateConverter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

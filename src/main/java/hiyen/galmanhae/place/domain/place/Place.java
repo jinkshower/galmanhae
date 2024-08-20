@@ -1,9 +1,9 @@
-package hiyen.galmanhae.place.domain;
+package hiyen.galmanhae.place.domain.place;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hiyen.galmanhae.place.domain.vo.Congestion;
-import hiyen.galmanhae.place.domain.vo.Location;
-import hiyen.galmanhae.place.domain.vo.Weather;
+import hiyen.galmanhae.place.domain.place.Congestion;
+import hiyen.galmanhae.place.domain.place.Location;
+import hiyen.galmanhae.place.domain.place.Weather;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

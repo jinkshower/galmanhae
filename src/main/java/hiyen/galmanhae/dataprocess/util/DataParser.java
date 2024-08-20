@@ -1,8 +1,9 @@
-package hiyen.galmanhae.dataprocess.csv;
+package hiyen.galmanhae.dataprocess.util;
 
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo.AreaInfo;
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo.LocationInfo;
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo.WeatherInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +25,11 @@ import org.locationtech.jts.geom.Point;
 import org.opengis.feature.simple.SimpleFeature;
 import org.springframework.stereotype.Component;
 
+/**
+ * .shp, .shx, .dbf 파일을 파싱하여 장소 이름, 코드, 위도, 경도 정보를 추출
+ * 위도와 경도를 람베르트 좌표계로 변환 후 PlaceInfo 객체로 변환
+ */
+//TODO 리팩토링 필요
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -70,9 +76,8 @@ public class DataParser {
 				final WeatherInfo weatherInfo = new WeatherInfo(String.valueOf(converted[0]), String.valueOf(converted[1]));
 				placeInfos.add(new PlaceInfo(areaInfo, locationInfo, weatherInfo));
 			}
-		} catch (Exception e) {
-			log.error("Failed to parse shapefile", e);
-		} finally {
+		}
+		finally {
 			dataStore.dispose();
 			Files.deleteIfExists(shpTempFile.toPath());
 			Files.deleteIfExists(shxTempFile.toPath());

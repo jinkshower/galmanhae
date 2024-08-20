@@ -1,9 +1,9 @@
-package hiyen.galmanhae.place.domain;
+package hiyen.galmanhae.place.entity;
 
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo;
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo.AreaInfo;
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo.LocationInfo;
-import hiyen.galmanhae.dataprocess.csv.PlaceInfo.WeatherInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
