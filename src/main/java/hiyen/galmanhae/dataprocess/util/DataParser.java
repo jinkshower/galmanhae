@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class DataParser {
 	public Map<String, byte[]> processZipFile(final InputStream inputStream) {
 		final Map<String, byte[]> extractedFiles = new HashMap<>();
 
-		try (final ZipInputStream zipInputStream = new ZipInputStream(inputStream, StandardCharsets.UTF_8)) {
+		try (final ZipInputStream zipInputStream = new ZipInputStream(inputStream, Charset.forName("EUC-KR"))) {
 			ZipEntry entry;
 			while ((entry = zipInputStream.getNextEntry()) != null) { //하나의 엔트리를 읽어옴
 				final String fileName = entry.getName(); //엔트리의 이름을 가져옴

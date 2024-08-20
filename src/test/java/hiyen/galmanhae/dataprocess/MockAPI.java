@@ -12,7 +12,8 @@ import org.springframework.test.context.TestPropertySource;
 @AutoConfigureWireMock(port = 0)
 @TestPropertySource(properties = {
 	"client.weather.url=http://localhost:${wiremock.server.port}",
-	"client.congestion.url=http://localhost:${wiremock.server.port}"
+	"client.congestion.url=http://localhost:${wiremock.server.port}",
+	"client.placeinfo.url=http://localhost:${wiremock.server.port}"
 })
 public abstract class MockAPI {
 

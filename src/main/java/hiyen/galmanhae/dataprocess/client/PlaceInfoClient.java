@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @FeignClient(
-	name = "poiDownloadClient",
-	url = "https://datafile.seoul.go.kr"
+	name = "placeInfoClient",
+	url = "${client.placeinfo.url}"
 )
 public interface PlaceInfoClient {
 
