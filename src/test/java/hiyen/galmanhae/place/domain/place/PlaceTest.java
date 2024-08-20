@@ -55,7 +55,7 @@ class PlaceTest {
 			assertDoesNotThrow(() -> {
 				Place place = PlaceMapper.toPlace(name, location, weather, congestion);
 				assertThat(place).isNotNull();
-				assertThat(place.getGoOutLevel()).isNotNull();
+				assertThat(place.goOutLevel()).isNotNull();
 			});
 		}
 

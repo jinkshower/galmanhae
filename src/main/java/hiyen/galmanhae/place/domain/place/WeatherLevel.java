@@ -1,41 +1,18 @@
 package hiyen.galmanhae.place.domain.place;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.function.Predicate;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode
-@ToString
-public class WeatherLevel {
-
-	@Column(name = "weather_raining_grade")
-	@Enumerated(EnumType.STRING)
-	private WeatherRainingGrade weatherRainingGrade;
-
-	@Column(name = "weather_temp_grade")
-	@Enumerated(EnumType.STRING)
-	private WeatherTempGrade weatherTempGrade;
-
-	@Column(name = "weather_score")
-	private Integer weatherScore;
-
+public record WeatherLevel(
+	WeatherRainingGrade weatherRainingGrade,
+	WeatherTempGrade weatherTempGrade,
+	Integer weatherScore
+) {
 	public static WeatherLevel of(final Double weatherTemp, final Double weatherRaining) {
 		final WeatherRainingGrade rainingGrade = WeatherRainingGrade.of(weatherRaining);
 		final WeatherTempGrade tempGrade = WeatherTempGrade.of(weatherTemp);
