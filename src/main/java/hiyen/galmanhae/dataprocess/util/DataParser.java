@@ -63,11 +63,14 @@ public class DataParser {
 		} catch (IOException e) {
 			throw new FailFetchAPIUncheckedException(e);
 		}
+		log.info("파일 읽고 맵으로 만들기 완료!");
 
 		return extractedFiles;
 	}
 
 	public List<PlaceInfo> parse(final Map<String, byte[]> fileMap, final String fileName) throws IOException {
+		log.info("파싱 시작, 파일 이름: {}", fileName);
+
 		// fileMap에 저장된 파일들을 각각의 확장자에 맞게 임시파일로 생성.
 		final File shpTempFile = createTempFile(".shp", fileMap.get(fileName + ".shp"));
 		final File shxTempFile = createTempFile(".shx", fileMap.get(fileName + ".shx"));
