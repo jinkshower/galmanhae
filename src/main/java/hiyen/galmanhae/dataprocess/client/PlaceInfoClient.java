@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(
 	name = "placeInfoClient",
-	url = "${client.placeinfo.url}"
+	url = "${client.placeinfo.url}",
+	configuration = FeignConfig.class
 )
 public interface PlaceInfoClient {
 

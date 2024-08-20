@@ -12,8 +12,8 @@ public class DataProcessCheckedException extends Exception {
 
 	public static class FailFetchAPIException extends DataProcessCheckedException {
 
-		public FailFetchAPIException(Throwable cause) {
-			super("API를 호출하는데 실패했습니다.", cause);
+		public FailFetchAPIException(String message) {
+			super("API를 호출하는데 실패했습니다.");
 		}
 	}
 }
