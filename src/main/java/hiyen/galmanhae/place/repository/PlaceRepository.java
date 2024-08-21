@@ -1,10 +1,13 @@
 package hiyen.galmanhae.place.repository;
 
-import hiyen.galmanhae.place.entity.PlaceEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import hiyen.galmanhae.place.domain.place.Place;
+import java.util.List;
 
-@Repository
-public interface PlaceRepository extends JpaRepository<PlaceEntity, Long> {
+public interface PlaceRepository {
 
+	List<Place> saveAll(List<Place> placeEntities);
+
+	List<Place> findAll();
+
+	long count();
 }
