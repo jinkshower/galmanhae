@@ -45,7 +45,6 @@ public class DataProcessor {
 			.map(CompletableFuture::join)
 			.filter(Objects::nonNull)
 			.toList();
-
 		dataQueryService.saveAllPlaces(places);
 	}
 
