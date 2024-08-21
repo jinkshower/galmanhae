@@ -10,28 +10,24 @@ import hiyen.galmanhae.place.domain.place.Weather;
 import hiyen.galmanhae.place.domain.place.WeatherLevel;
 import hiyen.galmanhae.place.domain.place.WeatherLevel.WeatherRainingGrade;
 import hiyen.galmanhae.place.domain.place.WeatherLevel.WeatherTempGrade;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Entity
+@Table(name = "place")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
-public class PlaceEntity extends BaseEntity {
+@ToString
+public class PlaceEntity {
 
 	@Id
 	@Column(name = "place_id")
@@ -39,6 +35,7 @@ public class PlaceEntity extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Getter
 	@Column(name = "place_name")
 	private String name;
 
@@ -55,14 +52,17 @@ public class PlaceEntity extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	private GoOutLevel goOutLevel;
 
+	private LocalDateTime createdAt;
+
 	@Builder
 	public PlaceEntity(
 		final String name,
 		final LocationEntity location,
 		final WeatherEntity weather,
 		final CongestionEntity congestion,
-		final GoOutLevel goOutLevel) {
-		this(null, name, location, weather, congestion, goOutLevel);
+		final GoOutLevel goOutLevel,
+		final LocalDateTime createdAt) {
+		this(null, name, location, weather, congestion, goOutLevel, createdAt);
 	}
 
 	public static PlaceEntity from(final Place place) {
@@ -88,6 +88,7 @@ public class PlaceEntity extends BaseEntity {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@AllArgsConstructor
 	@Getter
+	@ToString
 	public static class LocationEntity {
 
 		@Column(name = "latitude")
@@ -109,6 +110,7 @@ public class PlaceEntity extends BaseEntity {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@AllArgsConstructor
 	@Getter
+	@ToString
 	public static class WeatherEntity {
 
 		@Column(name = "weather_temp")
@@ -140,6 +142,7 @@ public class PlaceEntity extends BaseEntity {
 		@NoArgsConstructor(access = AccessLevel.PROTECTED)
 		@AllArgsConstructor
 		@Getter
+		@ToString
 		public static class WeatherLevelEntity {
 
 			@Column(name = "weather_raining_grade")
@@ -175,6 +178,7 @@ public class PlaceEntity extends BaseEntity {
 	@NoArgsConstructor(access = AccessLevel.PROTECTED)
 	@AllArgsConstructor
 	@Getter
+	@ToString
 	public static class CongestionEntity {
 
 		@Column(name = "congestion_people")
