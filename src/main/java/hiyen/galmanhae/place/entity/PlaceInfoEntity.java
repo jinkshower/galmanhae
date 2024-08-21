@@ -4,6 +4,7 @@ import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -15,12 +16,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "place_info")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class PlaceInfoEntity {
 
 	@Id
@@ -63,7 +66,10 @@ public class PlaceInfoEntity {
 	@NoArgsConstructor
 	public static class AreaInfoEntity {
 
+		@Column(name = "area_code", length = 10)
 		private String areaCode;
+
+		@Column(name = "area_name")
 		private String areaName;
 	}
 
@@ -73,7 +79,10 @@ public class PlaceInfoEntity {
 	@NoArgsConstructor
 	public static class LocationInfoEntity {
 
+		@Column(name = "latitude")
 		private String latitude;
+
+		@Column(name = "longitude")
 		private String longitude;
 	}
 
@@ -83,7 +92,10 @@ public class PlaceInfoEntity {
 	@NoArgsConstructor
 	public static class WeatherInfoEntity {
 
+		@Column(name = "weather_x", length = 5)
 		private String weatherX;
+
+		@Column(name = "weather_y", length = 5)
 		private String weatherY;
 	}
 }
