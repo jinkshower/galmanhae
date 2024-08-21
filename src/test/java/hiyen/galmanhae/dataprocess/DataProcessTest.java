@@ -1,6 +1,6 @@
 package hiyen.galmanhae.dataprocess;
 
-import hiyen.galmanhae.place.entity.PlaceEntity;
+import hiyen.galmanhae.place.domain.place.Place;
 import hiyen.galmanhae.place.repository.PlaceInfoRepository;
 import hiyen.galmanhae.place.repository.PlaceRepository;
 import java.util.List;
@@ -34,10 +34,8 @@ public class DataProcessTest {
 		placeInfoDataProcessor.process();
 		dataProcessor.process();
 
-		List<PlaceEntity> all = placeRepository.findAll();
-		all.stream()
-			.map(PlaceEntity::toPlace)
-			.forEach(System.out::println);
+		List<Place> all = placeRepository.findAll();
+		all.forEach(System.out::println);
 		System.out.println(all.size());
 	}
 }

@@ -4,10 +4,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
-import hiyen.galmanhae.place.entity.PlaceInfoEntity;
-import hiyen.galmanhae.place.entity.PlaceInfoEntity.AreaInfoEntity;
-import hiyen.galmanhae.place.entity.PlaceInfoEntity.LocationInfoEntity;
-import hiyen.galmanhae.place.entity.PlaceInfoEntity.WeatherInfoEntity;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
+import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
 import hiyen.galmanhae.place.repository.PlaceInfoRepository;
 import hiyen.galmanhae.place.repository.PlaceRepository;
 import java.io.IOException;
@@ -38,12 +38,12 @@ class DataProcessorIntegrationTest extends MockAPI {
 
 	@BeforeEach
 	void setUp() {
-		final PlaceInfoEntity placeInfoEntity = PlaceInfoEntity.builder()
-			.areaInfo(new AreaInfoEntity("POI001", "강남 MICE 관광특구"))
-			.locationInfo(new LocationInfoEntity("37.5112843816696", "127.06005155384705"))
-			.weatherInfo(new WeatherInfoEntity("62", "127"))
-			.build();
-		placeInfoRepository.save(placeInfoEntity);
+		final PlaceInfo placeInfo = new PlaceInfo(
+			new AreaInfo(areaCode, "강남구"),
+			new LocationInfo("37.1234", "127.1234"),
+			new WeatherInfo("60", "127")
+		);
+		placeInfoRepository.save(placeInfo);
 	}
 
 	@DisplayName("외부 API를 호출하여 데이터를 DB에 저장한다")
