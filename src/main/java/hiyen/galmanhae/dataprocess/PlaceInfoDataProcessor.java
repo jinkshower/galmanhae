@@ -11,8 +11,6 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -30,8 +28,6 @@ public class PlaceInfoDataProcessor {
 	/**
 	 * 장소 정보를 다운로드하여 db에 저장
 	 */
-	//TODO 애플리케이션 시작시 해당 메서드 실행하는 걸 테스트할 방법 필요
-//	@EventListener(ApplicationReadyEvent.class)
 	public void process() {
 		log.info("장소 정보 다운로드 및 저장 시작");
 		final InputStream fetch = placeInfoService.fetch();
