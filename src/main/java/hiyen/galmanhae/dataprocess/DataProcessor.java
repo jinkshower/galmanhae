@@ -4,13 +4,11 @@ import hiyen.galmanhae.dataprocess.application.CongestionService;
 import hiyen.galmanhae.dataprocess.application.DataQueryService;
 import hiyen.galmanhae.dataprocess.application.WeatherService;
 import hiyen.galmanhae.place.domain.place.Congestion;
-import hiyen.galmanhae.place.domain.place.Location;
 import hiyen.galmanhae.place.domain.place.Place;
 import hiyen.galmanhae.place.domain.place.Place.GoOutLevel;
 import hiyen.galmanhae.place.domain.place.Weather;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,26 +56,22 @@ public class DataProcessor {
 
 	private Place aggregatePlace(final PlaceInfo placeInfo) {
 		final AreaInfo areaInfo = placeInfo.areaInfo();
-		final LocationInfo locationInfo = placeInfo.locationInfo();
 		final WeatherInfo weatherInfo = placeInfo.weatherInfo();
 
 		final Congestion congestion = congestionService.fetch(areaInfo.areaCode());
 		final Weather weather = weatherService.fetch(weatherInfo.weatherX(), weatherInfo.weatherY());
-		final Location location = Location.of(Double.valueOf(locationInfo.latitude()), Double.valueOf(locationInfo.longitude()));
 
-		return PlaceMapper.toPlace(areaInfo.areaName(), location, weather, congestion);
+		return PlaceMapper.toPlace(areaInfo.areaName(), weather, congestion);
 	}
 
 	private static class PlaceMapper {
 
 		private static Place toPlace(
 			final String name,
-			final Location location,
 			final Weather weather,
 			final Congestion congestion) {
 			return Place.builder()
 				.name(name)
-				.location(location)
 				.weather(weather)
 				.congestion(congestion)
 				.goOutLevel(GoOutLevel.of(weather, congestion))

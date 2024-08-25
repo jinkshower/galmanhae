@@ -27,9 +27,9 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 		final List<PlaceEntity> entities = toEntities(places);
 
 		final String sql = """
-			INSERT INTO place (place_name, latitude, longitude, weather_temp, weather_raining, weather_raining_grade, weather_temp_grade, 
-			weather_score, congestion_people, congestion_level, go_out_level, created_at) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())
+			INSERT INTO place (place_name, weather_temp, weather_raining, weather_raining_grade, weather_temp_grade, 
+			weather_score, congestion_people, congestion_level, go_out_level, created_at, updated_at) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now(), now())
 			""";
 
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -37,16 +37,14 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				final PlaceEntity place = entities.get(i);
 				ps.setString(1, place.getName());
-				ps.setDouble(2, place.getLocation().getLatitude());
-				ps.setDouble(3, place.getLocation().getLongitude());
-				ps.setDouble(4, place.getWeather().getWeatherTemp());
-				ps.setDouble(5, place.getWeather().getWeatherRaining());
-				ps.setString(6, place.getWeather().getWeatherLevel().getWeatherRainingGrade().name());
-				ps.setString(7, place.getWeather().getWeatherLevel().getWeatherTempGrade().name());
-				ps.setInt(8, place.getWeather().getWeatherLevel().getWeatherScore());
-				ps.setInt(9, place.getCongestion().getCongestionPeople());
-				ps.setString(10, place.getCongestion().getCongestionLevel().name());
-				ps.setString(11, place.getGoOutLevel().name());
+				ps.setDouble(2, place.getWeather().getWeatherTemp());
+				ps.setDouble(3, place.getWeather().getWeatherRaining());
+				ps.setString(4, place.getWeather().getWeatherLevel().getWeatherRainingGrade().name());
+				ps.setString(5, place.getWeather().getWeatherLevel().getWeatherTempGrade().name());
+				ps.setInt(6, place.getWeather().getWeatherLevel().getWeatherScore());
+				ps.setInt(7, place.getCongestion().getCongestionPeople());
+				ps.setString(8, place.getCongestion().getCongestionLevel().name());
+				ps.setString(9, place.getGoOutLevel().name());
 			}
 
 			@Override
