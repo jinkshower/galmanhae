@@ -2,6 +2,7 @@ package hiyen.galmanhae.place.repository.place;
 
 import hiyen.galmanhae.place.domain.place.Place;
 import hiyen.galmanhae.place.entity.PlaceEntity;
+import hiyen.galmanhae.place.exception.PlaceException.NotFoundPlaceException;
 import hiyen.galmanhae.place.repository.PlaceRepository;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -66,6 +67,13 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 	@Override
 	public long count() {
 		return placeJpaRepository.count();
+	}
+
+	@Override
+	public Place findByName(final String placeName) {
+		final PlaceEntity found = placeJpaRepository.findByName(placeName)
+			.orElseThrow(NotFoundPlaceException::new);
+		return PlaceEntity.toPlace(found);
 	}
 
 	private static List<PlaceEntity> toEntities(final List<Place> places) {

@@ -27,4 +27,8 @@ public record Weather(
 	public int getScore() {
 		return weatherLevel.weatherScore();
 	}
+
+	public String getDescription() {
+		return weatherLevel.getDescription();
+	}
 }

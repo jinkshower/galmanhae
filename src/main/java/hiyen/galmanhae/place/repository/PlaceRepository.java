@@ -10,4 +10,6 @@ public interface PlaceRepository {
 	List<Place> findAll();
 
 	long count();
+
+	Place findByName(String placeName);
 }

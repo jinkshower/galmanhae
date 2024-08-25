@@ -21,6 +21,10 @@ public record WeatherLevel(
 		return new WeatherLevel(rainingGrade, tempGrade, score);
 	}
 
+	public String getDescription() {
+		return weatherTempGrade.getDescription() + " " + weatherRainingGrade.getDescription();
+	}
+
 	@Getter
 	@RequiredArgsConstructor
 	public enum WeatherRainingGrade {
