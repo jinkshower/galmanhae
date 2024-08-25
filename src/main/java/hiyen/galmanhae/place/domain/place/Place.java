@@ -25,6 +25,30 @@ public record Place(
 		}
 	}
 
+	public String getWeatherDescription() {
+		return weather.getDescription();
+	}
+
+	public Double getWeatherTemp() {
+		return weather.weatherTemp();
+	}
+
+	public Double getWeatherRaining() {
+		return weather.weatherRaining();
+	}
+
+	public String getCongestionDescription() {
+		return congestion.getDescription();
+	}
+
+	public Integer getCongestionPeople() {
+		return congestion.congestionPeople();
+	}
+
+	public String getGoOutLevelDescription() {
+		return goOutLevel.getDescription();
+	}
+
 	@Getter
 	@RequiredArgsConstructor
 	public enum GoOutLevel {

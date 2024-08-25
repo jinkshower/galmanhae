@@ -28,6 +28,10 @@ public record Congestion(
 		return new Congestion(congestionPeople, CongestionLevel.of(congestionIndicator));
 	}
 
+	public String getDescription() {
+		return congestionLevel.getDescription();
+	}
+
 	public int getScore() {
 		return congestionLevel.getScore();
 	}
