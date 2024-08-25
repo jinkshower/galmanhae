@@ -12,7 +12,6 @@ import org.springframework.util.StringUtils;
 @Slf4j
 public record Place(
 	String name,
-	Location location,
 	Weather weather,
 	Congestion congestion,
 	GoOutLevel goOutLevel
