@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    show-sql: true
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: 3000
+            read-timeout: 3000
+
+# logging
+logging:
+  level:
+    hiyen.galmanhae.dataprocess: DEBUG
+    org.hibernate.type.descriptor.sql:
+      BasicBinder: TRACE
+    org.springframework: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
+
+# feign values
+client:
+  congestion:
+    url: test-url
+    service-key: test-key
+  weather:
+    url: test-url
+    service-key: test-key
+  placeinfo:
+    url: test-url
+    filename: test-filename
+
+kakao:
+  map:
+    app-key: test-key
