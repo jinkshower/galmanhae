@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <title>갈만해?</title>
+  <link href="/css/style.css" rel="stylesheet"> <!-- 스타일시트 파일 경로로 대체 -->
+</head>
+<body>
+<div id="map"></div>
+<div id="placeInfoContainer"></div> <!-- 오른쪽 정보 창 영역 -->
+<div id="search-container">
+  <input id="keyword" placeholder="장소를 입력하세요" type="text">
+  <button>갈만해?</button>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!-- axios 라이브러리 로드 -->
+<script
+    th:src="'//dapi.kakao.com/v2/maps/sdk.js?appkey=' + ${appKey} + '&libraries=services'"></script>
+<script th:src="@{/js/map.js}"></script> <!-- 분리된 JavaScript 파일 로드 -->
+</body>
+</html>
