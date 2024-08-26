@@ -75,3 +75,26 @@ html, body {
   border-radius: 3px;
   cursor: pointer;
 }
+
+
+#search-results {
+  position: absolute;
+  top: 100%; /* 검색창 바로 아래에 위치 */
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ddd;
+  max-height: 200px; /* 검색 결과 영역의 최대 높이 설정 */
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 바 생성 */
+  z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
+}
+
+.search-result-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.search-result-item:hover {
+  background-color: #f0f0f0;
+}
