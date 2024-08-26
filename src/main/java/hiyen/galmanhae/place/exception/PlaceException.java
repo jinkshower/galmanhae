@@ -12,8 +12,8 @@ public class PlaceException extends RuntimeException {
 
 	public static class NotFoundPlaceException extends PlaceException {
 
-		public NotFoundPlaceException() {
-			super("장소를 찾을 수 없습니다.");
+		public NotFoundPlaceException(final String placeName) {
+			super("장소를 찾을 수 없습니다. 장소 이름: " + placeName);
 		}
 	}
 }
