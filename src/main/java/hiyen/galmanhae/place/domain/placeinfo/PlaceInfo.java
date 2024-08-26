@@ -10,6 +10,14 @@ public record PlaceInfo(
 		return areaInfo.areaName();
 	}
 
+	public String getLatitude() {
+		return locationInfo.latitude();
+	}
+
+	public String getLongitude() {
+		return locationInfo.longitude();
+	}
+
 	public record AreaInfo(
 		String areaCode,
 		String areaName
