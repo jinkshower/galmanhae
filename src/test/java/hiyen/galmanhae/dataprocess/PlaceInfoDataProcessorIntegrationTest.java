@@ -4,6 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
+import hiyen.galmanhae.common.MockAPI;
 import hiyen.galmanhae.place.repository.PlaceInfoRepository;
 import java.io.IOException;
 import java.net.URISyntaxException;
