@@ -1,12 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var mapContainer = document.getElementById('map');
-  var placeInfoContainer = document.getElementById('placeInfoContainer');
-  var map = initializeMap(mapContainer);
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+      mapOption = {
+        center: new kakao.maps.LatLng(37.5665, 126.9780), // 지도의 중심좌표 (서울 시청 기준)
+        level: 3 // 지도의 확대 레벨
+      };
 
+  var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+  // 서버에서 장소 정보를 가져와서 마커를 생성합니다
   axios.get('/api/place-infos')
   .then(function (response) {
-    response.data.forEach(function (place) {
-      addMarkerToMap(map, place);
+    response.data.forEach(function (placeInfo) {
+      addMarkerToMap(map, placeInfo);
     });
   })
   .catch(function (error) {
@@ -14,25 +19,39 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-function initializeMap(container) {
-  var mapOption = {
-    center: new kakao.maps.LatLng(37.5665, 126.9780), // 초기 지도 중심좌표 설정 (서울 시청 기준)
-    level: 3 // 확대 레벨
-  };
-  return new kakao.maps.Map(container, mapOption); // 지도 생성 및 객체 리턴
-}
-
 function addMarkerToMap(map, place) {
-  var markerPosition = new kakao.maps.LatLng(place.latitude, place.longitude);
+  var markerPosition = new kakao.maps.LatLng(place.latitude, place.longitude); // 마커가 표시될 위치입니다
 
+  // goOutLevel에 따른 마커 이미지 설정
+  var imageSrc;
+  switch (place.goOutLevel) {
+    case 'LOW':
+      imageSrc = '/image/marker_copper.png'; // 동색 마커 이미지 경로
+      break;
+    case 'MEDIUM':
+      imageSrc = '/image/marker_silver.png'; // 은색 마커 이미지 경로
+      break;
+    case 'HIGH':
+      imageSrc = '/image/marker_gold.png'; // 황금색 마커 이미지 경로
+      break;
+    default:
+      imageSrc = '/marker.png'; // 기본 마커 이미지 경로
+  }
+
+  var imageSize = new kakao.maps.Size(64, 69); // 마커이미지의 크기입니다
+  var imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다
+
+  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
+      imageOption); // 마커의 이미지정보를 가지고 있는 마커이미지 생성
   var marker = new kakao.maps.Marker({
     position: markerPosition,
-    clickable: true
+    image: markerImage // 마커이미지 설정
   });
-  marker.setMap(map);
 
+  marker.setMap(map); // 마커가 지도 위에 표시되도록 설정합니다
+
+  // 마커에 마우스 오버 이벤트와 클릭 이벤트 추가
   var infowindow = createInfoWindow(place.name);
-
   kakao.maps.event.addListener(marker, 'mouseover', function () {
     infowindow.open(map, marker);
   });
@@ -48,7 +67,7 @@ function addMarkerToMap(map, place) {
 
 function createInfoWindow(content) {
   return new kakao.maps.InfoWindow({
-    content: '<div style="padding:5px;">' + content + '</div>'
+    content: '<div style="padding:5px;">' + content + '</div>' // 인포윈도우에 표시할 내용
   });
 }
 

@@ -17,6 +17,7 @@ public record Place(
 	GoOutLevel goOutLevel
 
 ) {
+
 	@Builder
 	public Place {
 		if (!StringUtils.hasText(name)) {
@@ -43,6 +44,10 @@ public record Place(
 
 	public Integer getCongestionPeople() {
 		return congestion.congestionPeople();
+	}
+
+	public String getGoOutLevel() {
+		return goOutLevel.name();
 	}
 
 	public String getGoOutLevelDescription() {

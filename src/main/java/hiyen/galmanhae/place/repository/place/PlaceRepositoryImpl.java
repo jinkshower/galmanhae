@@ -72,7 +72,7 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 	@Override
 	public Place findByName(final String placeName) {
 		final PlaceEntity found = placeJpaRepository.findByName(placeName)
-			.orElseThrow(NotFoundPlaceException::new);
+			.orElseThrow(() -> new NotFoundPlaceException(placeName));
 		return PlaceEntity.toPlace(found);
 	}
 

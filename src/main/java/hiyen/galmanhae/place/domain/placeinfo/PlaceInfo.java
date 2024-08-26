@@ -6,6 +6,10 @@ public record PlaceInfo(
 	WeatherInfo weatherInfo
 ) {
 
+	public String getAreaName() {
+		return areaInfo.areaName();
+	}
+
 	public record AreaInfo(
 		String areaCode,
 		String areaName
