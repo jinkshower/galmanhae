@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var placeInfoContainer = document.getElementById('placeInfoContainer');
   var map = initializeMap(mapContainer);
 
-  axios.get('/api/places')
+  axios.get('/api/place-infos')
   .then(function (response) {
     response.data.forEach(function (place) {
       addMarkerToMap(map, place);
