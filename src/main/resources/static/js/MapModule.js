@@ -1,3 +1,5 @@
+import {PlaceInfoModule} from './PlaceInfoModule.js';
+
 export class MapModule {
   constructor(mapContainerId, options) {
     this.mapContainer = document.getElementById(mapContainerId);
@@ -25,16 +27,21 @@ export class MapModule {
     marker.setMap(this.map);
 
     const infowindow = this.createInfoWindow(place.name);
-    kakao.maps.event.addListener(marker, 'mouseover', function () {
+
+    // 마우스 오버 시 인포윈도우 열기
+    kakao.maps.event.addListener(marker, 'mouseover', () => {
       infowindow.open(this.map, marker);
     });
 
-    kakao.maps.event.addListener(marker, 'mouseout', function () {
+    // 마우스 아웃 시 인포윈도우 닫기
+    kakao.maps.event.addListener(marker, 'mouseout', () => {
       infowindow.close();
     });
 
-    kakao.maps.event.addListener(marker, 'click', function () {
-      fetchPlaceDetails(place.name);
+    // 마커 클릭 시 장소 정보 가져오기 및 지도 중심 이동
+    kakao.maps.event.addListener(marker, 'click', () => {
+      this.setCenter(markerPosition);
+      this.fetchPlaceDetails(place.name);
     });
   }
 
@@ -74,5 +81,21 @@ export class MapModule {
     const placeInfoContainer = document.getElementById('placeInfoContainer');
     placeInfoContainer.style.width = "20%";
     placeInfoContainer.style.display = "block";
+  }
+
+  setCenter(position) {
+    this.map.setCenter(position);
+  }
+
+  fetchPlaceDetails(placeName) {
+    axios.get(`/api/places/${placeName}`)
+    .then(response => {
+      const placeDetails = response.data;
+      PlaceInfoModule.displayPlaceInfo(placeDetails);
+      this.adjustMapSize();
+    })
+    .catch(error => {
+      console.error('Error fetching place details:', error);
+    });
   }
 }
