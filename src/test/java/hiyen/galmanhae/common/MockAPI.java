@@ -1,4 +1,4 @@
-package hiyen.galmanhae.dataprocess;
+package hiyen.galmanhae.common;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.AfterEach;

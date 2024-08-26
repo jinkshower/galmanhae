@@ -4,7 +4,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
-import hiyen.galmanhae.dataprocess.MockAPI;
+import hiyen.galmanhae.common.MockAPI;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
 import hiyen.galmanhae.place.domain.place.Congestion;
 import hiyen.galmanhae.place.domain.place.Congestion.CongestionLevel;
