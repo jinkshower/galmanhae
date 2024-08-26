@@ -70,6 +70,14 @@ public class PlaceInfoRepositoryImpl implements PlaceInfoRepository {
 		return PlaceInfoEntity.toPlaceInfo(save);
 	}
 
+	@Override
+	public List<PlaceInfo> search(final String keyword) {
+		final List<PlaceInfoEntity> found = placeInfoJpaRepository.search(keyword);
+		return found.stream()
+			.map(PlaceInfoEntity::toPlaceInfo)
+			.toList();
+	}
+
 	private static List<PlaceInfoEntity> toEntities(final List<PlaceInfo> placeInfos) {
 		return placeInfos.stream()
 			.map(PlaceInfoEntity::from)
