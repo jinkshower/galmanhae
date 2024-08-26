@@ -12,4 +12,6 @@ public interface PlaceInfoRepository {
 	long count();
 
 	PlaceInfo save(PlaceInfo place);
+
+	List<PlaceInfo> search(String keyword);
 }
