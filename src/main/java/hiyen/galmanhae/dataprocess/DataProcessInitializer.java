@@ -1,5 +1,6 @@
 package hiyen.galmanhae.dataprocess;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -18,8 +19,7 @@ public class DataProcessInitializer {
 	private final DataProcessor dataProcessor;
 
 	/**
-	 * 애플리케이션 시작시 장소 목록을 다운로드 이후 DB에 저장
-	 * 해당 장소 목록을 읽어 외부 API를 호출하여 데이터를 가져오고 Place 테이블에 저장
+	 * 애플리케이션 시작시 장소 목록을 다운로드 이후 DB에 저장 해당 장소 목록을 읽어 외부 API를 호출하여 데이터를 가져오고 Place 테이블에 저장
 	 */
 	@EventListener(ApplicationReadyEvent.class)
 	public void init() {
@@ -34,6 +34,8 @@ public class DataProcessInitializer {
 	 */
 	@Scheduled(cron = "0 0 * * * ?")
 	public void hourlyProcess() {
+		log.info("매 시간마다 최신의 인구, 날씨 데이터를 처리합니다. 현재 시간 {}", LocalDateTime.now());
 		dataProcessor.process();
+		log.info("매 시간마다 최신의 인구, 날씨 데이터 처리가 완료되었습니다. 현재 시간 {}", LocalDateTime.now());
 	}
 }
