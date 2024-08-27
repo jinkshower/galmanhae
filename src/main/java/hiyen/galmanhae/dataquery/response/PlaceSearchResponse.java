@@ -1,15 +1,19 @@
 package hiyen.galmanhae.dataquery.response;
 
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
+import hiyen.galmanhae.data.domain.Place;
 
 public record PlaceSearchResponse(
-
+	Long placeId,
 	String placeName,
-	String latitude,
-	String longitude
+	double latitude,
+	double longitude
 ) {
 
-	public static PlaceSearchResponse from(final PlaceInfo placeInfo) {
-		return new PlaceSearchResponse(placeInfo.getAreaName(), placeInfo.getLatitude(), placeInfo.getLongitude());
+	public static PlaceSearchResponse from(final Place place) {
+		return new PlaceSearchResponse(
+			place.id(),
+			place.placeNameAndCode().name(),
+			place.position().latitude(),
+			place.position().longitude());
 	}
 }

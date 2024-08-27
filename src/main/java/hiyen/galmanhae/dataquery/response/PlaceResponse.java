@@ -1,33 +1,23 @@
 package hiyen.galmanhae.dataquery.response;
 
-import hiyen.galmanhae.place.domain.place.Place;
+import hiyen.galmanhae.dataquery.domain.PlaceDetails;
 
 public record PlaceResponse(
 
+	Long placeId,
 	String name,
-
-	String goOutLevelDescription,
-
-	String weatherDescription,
-
-	double weatherTemp,
-
-	double weatherRaining,
-
-	String congestionDescription,
-
-	int congestionPeople
+	double latitude,
+	double longitude,
+	String goOutLevel
 ) {
 
-	public static PlaceResponse from(final Place place) {
+	public static PlaceResponse from(final Long id, final PlaceDetails placeDetails) {
 		return new PlaceResponse(
-			place.name(),
-			place.getGoOutLevelDescription(),
-			place.getWeatherDescription(),
-			place.getWeatherTemp(),
-			place.getWeatherRaining(),
-			place.getCongestionDescription(),
-			place.getCongestionPeople()
+			id,
+			placeDetails.placeName(),
+			placeDetails.latitude(),
+			placeDetails.longitude(),
+			placeDetails.goOutLevel().name()
 		);
 	}
 }

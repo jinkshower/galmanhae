@@ -1,6 +1,6 @@
 package hiyen.galmanhae.dataquery.presentation;
 
-import hiyen.galmanhae.dataquery.application.PlaceInfoQueryService;
+import hiyen.galmanhae.dataquery.application.PlaceQueryService;
 import hiyen.galmanhae.dataquery.response.PlaceSearchResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/search")
 public class PlaceSearchRestController {
 
-	private final PlaceInfoQueryService placeInfoQueryService;
+	private final PlaceQueryService placeQueryService;
 
+	/**
+	 * 검색의 결과를 포함하는 장소 이름(들)을 반환한다
+	 */
 	@GetMapping("/{keyword}")
 	public ResponseEntity<List<PlaceSearchResponse>> search(@PathVariable final String keyword) {
-		List<PlaceSearchResponse> response = placeInfoQueryService.search(keyword);
+		List<PlaceSearchResponse> response = placeQueryService.search(keyword);
 		return ResponseEntity.ok(response);
 	}
 }
