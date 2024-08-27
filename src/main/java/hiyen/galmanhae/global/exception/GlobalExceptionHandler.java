@@ -1,6 +1,6 @@
 package hiyen.galmanhae.global.exception;
 
-import hiyen.galmanhae.place.exception.PlaceException;
+import hiyen.galmanhae.data.exception.DataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = {
-		PlaceException.NotFoundPlaceException.class
+		DataException.NotFoundPlaceException.class
 	})
 	public ResponseEntity<ErrorResponse> handleNotFoundException(final RuntimeException exception) {
 		String message = exception.getMessage();
