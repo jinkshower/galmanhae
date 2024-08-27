@@ -1,10 +1,11 @@
 package hiyen.galmanhae.dataprocess.util;
 
+import hiyen.galmanhae.data.domain.Place;
+import hiyen.galmanhae.data.domain.Place.PlaceMapper;
+import hiyen.galmanhae.data.domain.Place.PlaceNameAndCode;
+import hiyen.galmanhae.data.domain.Place.Position;
+import hiyen.galmanhae.data.domain.Place.WeatherPosition;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,8 +32,7 @@ import org.opengis.feature.simple.SimpleFeature;
 import org.springframework.stereotype.Component;
 
 /**
- * .shp, .shx, .dbf 파일을 파싱하여 장소 이름, 코드, 위도, 경도 정보를 추출
- * 위도와 경도를 람베르트 좌표계로 변환 후 PlaceInfo 객체로 변환
+ * .shp, .shx, .dbf 파일을 파싱하여 장소 이름, 코드, 위도, 경도 정보를 추출 위도와 경도를 람베르트 좌표계로 변환 후 PlaceInfo 객체로 변환
  */
 //TODO 리팩토링 필요
 @Slf4j
@@ -67,7 +67,7 @@ public class DataParser {
 		return extractedFiles;
 	}
 
-	public List<PlaceInfo> parse(final Map<String, byte[]> fileMap, final String fileName) throws IOException {
+	public List<Place> parse(final Map<String, byte[]> fileMap, final String fileName) throws IOException {
 		log.info("파싱 시작, 파일 이름: {}", fileName);
 
 		// fileMap에 저장된 파일들을 각각의 확장자에 맞게 임시파일로 생성.
@@ -88,7 +88,7 @@ public class DataParser {
 		// Shapefile에서 피처(Feature)들을 가져옴
 		final SimpleFeatureCollection collection = dataStore.getFeatureSource().getFeatures();
 
-		List<PlaceInfo> placeInfos = new ArrayList<>();
+		List<Place> places = new ArrayList<>();
 		try (final SimpleFeatureIterator iterator = collection.features()) { // feature iterator를 이용하여 각 feature를 가져옴
 			while (iterator.hasNext()) {
 				final SimpleFeature feature = iterator.next();
@@ -103,19 +103,20 @@ public class DataParser {
 
 				int[] converted = lambertCoordinateConverter.convert(latitude, longitude);// 위도와 경도를 람베르트 좌표계로 변환
 
-				final AreaInfo areaInfo = new AreaInfo(code, name);
-				final LocationInfo locationInfo = new LocationInfo(String.valueOf(latitude), String.valueOf(longitude));
-				final WeatherInfo weatherInfo = new WeatherInfo(String.valueOf(converted[0]), String.valueOf(converted[1]));
-				placeInfos.add(new PlaceInfo(areaInfo, locationInfo, weatherInfo));
+				final PlaceNameAndCode placeNameAndCode = new PlaceNameAndCode(name, code);
+				final Position position = new Position(latitude, longitude);
+				final WeatherPosition weatherPosition = new WeatherPosition(converted[0], converted[1]);
+
+				final Place place = PlaceMapper.toPlace(placeNameAndCode, position, weatherPosition);
+				places.add(place);
 			}
-		}
-		finally {
+		} finally {
 			dataStore.dispose();
 			Files.deleteIfExists(shpTempFile.toPath());
 			Files.deleteIfExists(shxTempFile.toPath());
 			Files.deleteIfExists(dbfTempFile.toPath());
 		}
-		return placeInfos;
+		return places;
 	}
 
 	private File createTempFile(final String suffix, final byte[] data) throws IOException {

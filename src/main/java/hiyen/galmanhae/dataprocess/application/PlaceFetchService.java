@@ -1,7 +1,7 @@
 package hiyen.galmanhae.dataprocess.application;
 
 import feign.Response;
-import hiyen.galmanhae.dataprocess.client.PlaceInfoClient;
+import hiyen.galmanhae.dataprocess.client.PlaceClient;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PlaceInfoService {
+public class PlaceFetchService {
 
-	private final PlaceInfoClient placeInfoClient;
+	private final PlaceClient placeClient;
 
 	public InputStream fetch() {
 		Response response;
 		try {
-			response = placeInfoClient.fetch();
+			response = placeClient.fetch();
 		} catch (Exception e) {
 			throw new FailFetchAPIUncheckedException(e);
 		}

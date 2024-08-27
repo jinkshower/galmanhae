@@ -1,10 +1,10 @@
 package hiyen.galmanhae.dataprocess;
 
+import hiyen.galmanhae.data.domain.Place;
 import hiyen.galmanhae.dataprocess.application.DataQueryService;
-import hiyen.galmanhae.dataprocess.application.PlaceInfoService;
+import hiyen.galmanhae.dataprocess.application.PlaceFetchService;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailReadingFileException;
 import hiyen.galmanhae.dataprocess.util.DataParser;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PlaceInfoDataProcessor {
+public class PlaceDataProcessor {
 
-	private final PlaceInfoService placeInfoService;
+	private final PlaceFetchService placeFetchService;
 	private final DataParser dataParser;
 	private final DataQueryService dataQueryService;
 
@@ -29,16 +29,16 @@ public class PlaceInfoDataProcessor {
 	 * 장소 정보를 다운로드하여 db에 저장
 	 */
 	public void process() {
-		dataQueryService.deleteAllPlaceInfos();
+		dataQueryService.deleteAllPlaces();
 		log.info("장소 정보 다운로드 및 저장 시작");
-		final InputStream fetch = placeInfoService.fetch();
-		List<PlaceInfo> placeInfos;
+		final InputStream fetch = placeFetchService.fetch();
+		List<Place> places;
 		try {
 			Map<String, byte[]> fileMap = dataParser.processZipFile(fetch);
-			placeInfos = dataParser.parse(fileMap, fileName);
+			places = dataParser.parse(fileMap, fileName);
 		} catch (Exception e) {
 			throw new FailReadingFileException(e);
 		}
-		dataQueryService.saveAllPlaceInfos(placeInfos);
+		dataQueryService.saveAllPlaces(places);
 	}
 }
