@@ -26,4 +26,8 @@ public class DataQueryService {
 	public List<PlaceInfo> findAllPlaceInfos() {
 		return placeInfoRepository.findAll();
 	}
+
+	public void deleteAllPlaceInfos() {
+		placeInfoRepository.deleteAll();
+	}
 }

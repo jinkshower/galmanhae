@@ -2,9 +2,9 @@ package hiyen.galmanhae.dataprocess;
 
 import hiyen.galmanhae.dataprocess.application.DataQueryService;
 import hiyen.galmanhae.dataprocess.application.PlaceInfoService;
+import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailReadingFileException;
 import hiyen.galmanhae.dataprocess.util.DataParser;
 import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
-import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailReadingFileException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +29,7 @@ public class PlaceInfoDataProcessor {
 	 * 장소 정보를 다운로드하여 db에 저장
 	 */
 	public void process() {
+		dataQueryService.deleteAllPlaceInfos();
 		log.info("장소 정보 다운로드 및 저장 시작");
 		final InputStream fetch = placeInfoService.fetch();
 		List<PlaceInfo> placeInfos;
