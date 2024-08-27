@@ -14,4 +14,6 @@ public interface PlaceInfoRepository {
 	PlaceInfo save(PlaceInfo place);
 
 	List<PlaceInfo> search(String keyword);
+
+	void deleteAll();
 }

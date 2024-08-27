@@ -78,6 +78,11 @@ public class PlaceInfoRepositoryImpl implements PlaceInfoRepository {
 			.toList();
 	}
 
+	@Override
+	public void deleteAll() {
+		placeInfoJpaRepository.deleteAll();
+	}
+
 	private static List<PlaceInfoEntity> toEntities(final List<PlaceInfo> placeInfos) {
 		return placeInfos.stream()
 			.map(PlaceInfoEntity::from)
