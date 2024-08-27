@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import hiyen.galmanhae.common.MockAPI;
+import hiyen.galmanhae.data.domain.Weather;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
-import hiyen.galmanhae.place.domain.place.Weather;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -16,19 +16,19 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class WeatherServiceTest extends MockAPI {
+class WeatherFetchServiceTest extends MockAPI {
 
 	@Autowired
-	private WeatherService weatherService;
+	private WeatherFetchService weatherFetchService;
 
 	@Nested
 	@DisplayName("날씨 API 호출")
 	class WeatherAPIFetch {
 
-		final String latitude = "52";
-		final String longitude = "127";
-		final Double expectedTemp = 20.0;
-		final Double expectedRaining = 30.0;
+		final int weatherX = 52;
+		final int weatherY = 127;
+		final double expectedTemp = 20.0;
+		final double expectedRaining = 30.0;
 
 		@DisplayName("성공")
 		@Test
@@ -41,11 +41,11 @@ class WeatherServiceTest extends MockAPI {
 				.withBody(validResponse)
 			);
 
-			final Weather actual = weatherService.fetch(latitude, longitude);
+			final Weather actual = weatherFetchService.fetch(weatherX, weatherY);
 
 			assertThat(actual).isNotNull();
-			assertThat(actual.weatherTemp()).isEqualTo(expectedTemp);
-			assertThat(actual.weatherRaining()).isEqualTo(expectedRaining);
+			assertThat(actual.temperature()).isEqualTo(expectedTemp);
+			assertThat(actual.rainingProbability()).isEqualTo(expectedRaining);
 		}
 
 		@DisplayName("실패 - readtimeout")
@@ -56,7 +56,7 @@ class WeatherServiceTest extends MockAPI {
 				.withFixedDelay(5000)
 			);
 
-			assertThatThrownBy(() -> weatherService.fetch(latitude, longitude))
+			assertThatThrownBy(() -> weatherFetchService.fetch(weatherX, weatherY))
 				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 
@@ -70,7 +70,7 @@ class WeatherServiceTest extends MockAPI {
 				.withBody("fail")
 			);
 
-			assertThatThrownBy(() -> weatherService.fetch(latitude, longitude))
+			assertThatThrownBy(() -> weatherFetchService.fetch(weatherX, weatherY))
 				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 
@@ -81,7 +81,7 @@ class WeatherServiceTest extends MockAPI {
 				.withStatus(500)
 			);
 
-			assertThatThrownBy(() -> weatherService.fetch(latitude, longitude))
+			assertThatThrownBy(() -> weatherFetchService.fetch(weatherX, weatherY))
 				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 	}

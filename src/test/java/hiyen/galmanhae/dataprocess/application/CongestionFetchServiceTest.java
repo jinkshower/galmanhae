@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import hiyen.galmanhae.common.MockAPI;
+import hiyen.galmanhae.data.domain.Congestion;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailFetchAPIUncheckedException;
-import hiyen.galmanhae.place.domain.place.Congestion;
-import hiyen.galmanhae.place.domain.place.Congestion.CongestionLevel;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -18,10 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-class CongestionServiceTest extends MockAPI {
+class CongestionFetchServiceTest extends MockAPI {
 
 	@Autowired
-	private CongestionService congestionService;
+	private CongestionFetchService congestionFetchService;
 
 	@Value("${client.congestion.service-key}")
 	private String serviceKey;
@@ -32,6 +31,7 @@ class CongestionServiceTest extends MockAPI {
 
 		final String areaCode = "POI1001";
 		final Integer expectedCongestion = 500;
+		final String expectedCongestionIndicator = "보통";
 
 		@DisplayName("성공")
 		@Test
@@ -44,11 +44,11 @@ class CongestionServiceTest extends MockAPI {
 				.withBody(validResponse), areaCode
 			);
 
-			final Congestion actual = congestionService.fetch(areaCode);
+			final Congestion actual = congestionFetchService.fetch(areaCode);
 
 			assertThat(actual).isNotNull();
-			assertThat(actual.congestionLevel()).isEqualTo(CongestionLevel.NORMAL);
-			assertThat(actual.congestionPeople()).isEqualTo(expectedCongestion);
+			assertThat(actual.congestionIndicator()).isEqualTo(expectedCongestionIndicator);
+			assertThat(actual.currentPeople()).isEqualTo(expectedCongestion);
 		}
 
 		@DisplayName("실패 - readtimeout")
@@ -58,7 +58,7 @@ class CongestionServiceTest extends MockAPI {
 				.withFixedDelay(5000), areaCode
 			);
 
-			assertThatThrownBy(() -> congestionService.fetch(areaCode))
+			assertThatThrownBy(() -> congestionFetchService.fetch(areaCode))
 				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 
@@ -71,7 +71,7 @@ class CongestionServiceTest extends MockAPI {
 				.withBody("fail"), areaCode
 			);
 
-			assertThatThrownBy(() -> congestionService.fetch(areaCode))
+			assertThatThrownBy(() -> congestionFetchService.fetch(areaCode))
 				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 
@@ -82,7 +82,7 @@ class CongestionServiceTest extends MockAPI {
 				.withStatus(500), areaCode
 			);
 
-			assertThatThrownBy(() -> congestionService.fetch(areaCode))
+			assertThatThrownBy(() -> congestionFetchService.fetch(areaCode))
 				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 	}

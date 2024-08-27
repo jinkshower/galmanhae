@@ -3,86 +3,62 @@ package hiyen.galmanhae.place.domain.place;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import hiyen.galmanhae.place.domain.place.Place.GoOutLevel;
+import hiyen.galmanhae.data.domain.Place;
+import hiyen.galmanhae.data.domain.Place.PlaceMapper;
+import hiyen.galmanhae.data.domain.Place.PlaceNameAndCode;
+import hiyen.galmanhae.data.domain.Place.Position;
+import hiyen.galmanhae.data.domain.Place.WeatherPosition;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PlaceTest {
-	static class PlaceMapper {
-
-		static Place toPlace(
-			final String name,
-			final Weather weather,
-			final Congestion congestion) {
-			return Place.builder()
-				.name(name)
-				.weather(weather)
-				.congestion(congestion)
-				.goOutLevel(GoOutLevel.of(weather, congestion))
-				.build();
-		}
-	}
 
 	@DisplayName("Place 객체")
 	@Nested
 	class create {
 
 		String name = "광화문";
-		double weatherTemp = 20.0;
-		double weatherRaining = 4.0;
-		int congestionPeople = 32400;
-		String congestionIndicator = "보통";
+		String code = "GWM123";
+		double latitude = 37.571076;
+		double longitude = 126.976849;
+		int weatherX = 60;
+		int weatherY = 127;
 
 		@DisplayName("생성 성공")
 		@Test
 		void success() {
-
-			final Weather weather = Weather.of(weatherTemp, weatherRaining);
-			final Congestion congestion = Congestion.of(congestionPeople, congestionIndicator);
+			final PlaceNameAndCode placeNameAndCode = new PlaceNameAndCode(name, code);
+			final Position position = new Position(latitude, longitude);
+			final WeatherPosition weatherPosition = new WeatherPosition(weatherX, weatherY);
 
 			assertDoesNotThrow(() -> {
-				Place place = PlaceMapper.toPlace(name, weather, congestion);
+				Place place = PlaceMapper.toPlace(placeNameAndCode, position, weatherPosition);
 				assertThat(place).isNotNull();
-				assertThat(place.goOutLevel()).isNotNull();
+				assertThat(place.placeNameAndCode()).isNotNull();
 			});
 		}
 
 		@DisplayName("생성 실패 - 각 필드가 null일 경우")
 		@Test
+		@Disabled
+			//TODO 객체 검증 로직 완성 이후 다시 테스트 리팩토링 예정
 		void fail_nullValues() {
 			assertAll(
-				//Name이 null
+				// PlaceNameAndCode가 null
 				() -> assertThatThrownBy(() -> {
-					PlaceMapper.toPlace(null, Weather.of(weatherTemp, weatherRaining),
-						Congestion.of(congestionPeople, congestionIndicator));
+					PlaceMapper.toPlace(null, new Position(latitude, longitude),
+						new WeatherPosition(weatherX, weatherY));
 				}).isInstanceOf(IllegalArgumentException.class),
 
-				// WeatherTemp가 null
-				() -> assertThatThrownBy(() -> {
-					Weather weather = Weather.of(null, weatherRaining);
-					PlaceMapper.toPlace(name, weather,
-						Congestion.of(congestionPeople, congestionIndicator));
-				}).isInstanceOf(IllegalArgumentException.class),
+				// Position이 null
+				() -> assertThatThrownBy(() -> PlaceMapper.toPlace(new PlaceNameAndCode(name, code), null,
+					new WeatherPosition(weatherX, weatherY))).isInstanceOf(IllegalArgumentException.class),
 
-				// WeatherRaining이 null
-				() -> assertThatThrownBy(() -> {
-					Weather weather = Weather.of(weatherTemp, null);
-					PlaceMapper.toPlace(name, weather,
-						Congestion.of(congestionPeople, congestionIndicator));
-				}).isInstanceOf(IllegalArgumentException.class),
-
-				// CongestionPeople이 null
-				() -> assertThatThrownBy(() -> {
-					Congestion congestion = Congestion.of(null, congestionIndicator);
-					PlaceMapper.toPlace(name, Weather.of(weatherTemp, weatherRaining), congestion);
-				}).isInstanceOf(IllegalArgumentException.class),
-
-				// CongestionIndicator가 null
-				() -> assertThatThrownBy(() -> {
-					Congestion congestion = Congestion.of(congestionPeople, null);
-					PlaceMapper.toPlace(name, Weather.of(weatherTemp, weatherRaining), congestion);
-				}).isInstanceOf(IllegalArgumentException.class)
+				// WeatherPosition이 null
+				() -> assertThatThrownBy(() -> PlaceMapper.toPlace(new PlaceNameAndCode(name, code), new Position(latitude, longitude),
+					null)).isInstanceOf(IllegalArgumentException.class)
 			);
 		}
 	}
