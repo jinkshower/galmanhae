@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum WeatherBaseTime {
+enum WeatherBaseTime {
 	BASE_TIME_2300("2300", time -> isBefore(time, 2)),
 	BASE_TIME_0200("0200", time -> isBefore(time, 5)),
 	BASE_TIME_0500("0500", time -> isBefore(time, 8)),
@@ -21,7 +21,7 @@ public enum WeatherBaseTime {
 	private final String baseTime;
 	private final Predicate<LocalDateTime> condition;
 
-	public static WeatherBaseTime of(final LocalDateTime time) {
+	static WeatherBaseTime of(final LocalDateTime time) {
 		return Arrays.stream(values())
 			.filter(baseTime -> baseTime.condition.test(time))
 			.findFirst()
