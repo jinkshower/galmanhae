@@ -44,7 +44,7 @@ export class SearchModule {
       placeElement.innerText = placeSearchResponse.placeName;
 
       placeElement.addEventListener('click', () => {
-        this.fetchPlaceDetails(placeSearchResponse.placeName,
+        this.fetchPlaceDetails(placeSearchResponse.placeId,
             placeSearchResponse.latitude, placeSearchResponse.longitude);
         resultsContainer.style.display = 'none'; // 검색 결과를 클릭 시 결과 창을 숨깁니다.
       });
@@ -55,8 +55,8 @@ export class SearchModule {
     resultsContainer.style.display = 'block'; // 새로운 검색 시 결과 창을 다시 표시
   }
 
-  fetchPlaceDetails(placeName, latitude, longitude) {
-    axios.get(`/api/places/${placeName}`)
+  fetchPlaceDetails(placeId, latitude, longitude) {
+    axios.get(`/api/places/${placeId}`)
     .then(response => {
       const placeDetails = response.data;
       PlaceInfoModule.displayPlaceInfo(placeDetails);

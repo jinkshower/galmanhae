@@ -1,20 +1,25 @@
 export class PlaceInfoModule {
   static displayPlaceInfo(details) {
     this.loadTemplate(() => {
-      document.getElementById('place-name').innerText = details.name;
-      document.getElementById(
-          'place-goOutLevelDescription').innerText = details.goOutLevelDescription;
-      document.getElementById(
-          'place-weatherDescription').innerText = details.weatherDescription;
-      document.getElementById(
-          'place-weatherTemp').innerText = details.weatherTemp;
-      document.getElementById(
-          'place-weatherRaining').innerText = details.weatherRaining;
-      document.getElementById(
-          'place-congestionDescription').innerText = details.congestionDescription;
-      document.getElementById(
-          'place-congestionPeople').innerText = details.congestionPeople;
+      this.updateField('place-name', details.name);
+      this.updateField('place-goOutLevelDescription',
+          details.goOutLevelDescription);
+      this.updateField('place-weatherDescription', details.weatherDescription);
+      this.updateField('place-weatherTemp', details.weatherTemp, '도');
+      this.updateField('place-weatherRaining', details.weatherRaining, '%');
+      this.updateField('place-congestionDescription',
+          details.congestionDescription);
+      this.updateField('place-congestionPeople', details.congestionPeople, '명');
     });
+  }
+
+  static updateField(elementId, value, unit = '') {
+    const element = document.getElementById(elementId);
+    if (Number(value) !== -1) {
+      element.innerText = value + unit;
+    } else {
+      element.innerText = ''; // 값이 -1인 경우 빈 값으로 처리
+    }
   }
 
   static loadTemplate(callback) {

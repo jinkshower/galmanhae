@@ -41,7 +41,7 @@ export class MapModule {
     // 마커 클릭 시 장소 정보 가져오기 및 지도 중심 이동
     kakao.maps.event.addListener(marker, 'click', () => {
       this.setCenter(markerPosition);
-      this.fetchPlaceDetails(place.name);
+      this.fetchPlaceDetails(place.placeId);
     });
   }
 
@@ -54,7 +54,7 @@ export class MapModule {
       case 'HIGH':
         return '/image/marker_gold.png';
       default:
-        return '/marker.png';
+        return '/image/marker.png';
     }
   }
 
@@ -65,10 +65,10 @@ export class MapModule {
   }
 
   loadAllPlaces() {
-    axios.get('/api/place-infos')
+    axios.get('/api/places')
     .then(response => {
-      response.data.forEach(placeInfo => {
-        this.addMarker(placeInfo);
+      response.data.forEach(place => {
+        this.addMarker(place);
       });
     })
     .catch(error => {
@@ -87,8 +87,8 @@ export class MapModule {
     this.map.setCenter(position);
   }
 
-  fetchPlaceDetails(placeName) {
-    axios.get(`/api/places/${placeName}`)
+  fetchPlaceDetails(placeId) {
+    axios.get(`/api/places/${placeId}`)
     .then(response => {
       const placeDetails = response.data;
       PlaceInfoModule.displayPlaceInfo(placeDetails);
