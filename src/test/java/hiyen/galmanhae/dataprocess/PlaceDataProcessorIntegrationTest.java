@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import hiyen.galmanhae.common.MockAPI;
-import hiyen.galmanhae.place.repository.PlaceInfoRepository;
+import hiyen.galmanhae.data.repository.PlaceRepository;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -18,13 +18,13 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(properties = {
 	"client.placeinfo.filename=test_location"
 })
-class PlaceInfoDataProcessorIntegrationTest extends MockAPI {
+class PlaceDataProcessorIntegrationTest extends MockAPI {
 
 	@Autowired
-	private PlaceInfoDataProcessor placeInfoDataProcessor;
+	private PlaceDataProcessor placeDataProcessor;
 
 	@Autowired
-	private PlaceInfoRepository placeInfoRepository;
+	private PlaceRepository placeRepository;
 
 	@DisplayName("외부 API를 호출로 다운로드 받은 파일을 파싱하여 db에 저장한다")
 	@Test
@@ -34,9 +34,9 @@ class PlaceInfoDataProcessorIntegrationTest extends MockAPI {
 			.withHeader("Content-Type", "application/x-msdownload")
 			.withBody(validPlaceInfoResponse()));
 
-		placeInfoDataProcessor.process();
+		placeDataProcessor.process();
 
-		assertThat(placeInfoRepository.count()).isEqualTo(1);
+		assertThat(placeRepository.count()).isEqualTo(1);
 	}
 
 	private void setupPlaceInfoStub(final ResponseDefinitionBuilder responseBuilder) {

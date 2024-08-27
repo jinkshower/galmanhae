@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class PlaceInfoServiceTest extends MockAPI {
+class PlaceFetchServiceTest extends MockAPI {
 
 	@Autowired
-	private PlaceInfoService placeInfoService;
+	private PlaceFetchService placeFetchService;
 
 	@DisplayName("Place Info API 호출")
 	@Nested
@@ -34,7 +34,7 @@ class PlaceInfoServiceTest extends MockAPI {
 				.withBody(validPlaceInfoResponse())
 			);
 
-			final InputStream actual = placeInfoService.fetch();
+			final InputStream actual = placeFetchService.fetch();
 
 			assertThat(actual).isNotNull();
 			assertThat(actual.available()).isGreaterThan(0);
@@ -48,7 +48,7 @@ class PlaceInfoServiceTest extends MockAPI {
 				.withFixedDelay(5000)
 			);
 
-			assertThatThrownBy(() -> placeInfoService.fetch())
+			assertThatThrownBy(() -> placeFetchService.fetch())
 				.isInstanceOf(FailFetchAPIUncheckedException.class);
 		}
 	}

@@ -2,7 +2,7 @@ package hiyen.galmanhae.dataprocess.util;
 
 import static org.assertj.core.api.Assertions.*;
 
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
+import hiyen.galmanhae.data.domain.Place;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -35,13 +35,13 @@ class DataParserTest {
 
 		try (InputStream inputStream = resource.getInputStream()) {
 			Map<String, byte[]> fileMap = dataParser.processZipFile(inputStream);
-			List<PlaceInfo> actual = dataParser.parse(fileMap, "test_location");
+			List<Place> actual = dataParser.parse(fileMap, "test_location");
 
 			assertThat(actual).isNotEmpty();
-			assertThat(actual.get(0).locationInfo().latitude()).isEqualTo("37.5112843816696");
-			assertThat(actual.get(0).locationInfo().longitude()).isEqualTo("127.06005155384705");
-			assertThat(actual.get(0).weatherInfo().weatherX()).isEqualTo("62");
-			assertThat(actual.get(0).weatherInfo().weatherY()).isEqualTo("127");
+			assertThat(actual.get(0).position().latitude()).isEqualTo(37.5112843816696);
+			assertThat(actual.get(0).position().longitude()).isEqualTo(127.06005155384705);
+			assertThat(actual.get(0).weatherPosition().weatherX()).isEqualTo(62);
+			assertThat(actual.get(0).weatherPosition().weatherY()).isEqualTo(127);
 		}
 	}
 }

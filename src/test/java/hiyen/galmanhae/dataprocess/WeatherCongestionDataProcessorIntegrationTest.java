@@ -5,12 +5,10 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import hiyen.galmanhae.common.MockAPI;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.AreaInfo;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.LocationInfo;
-import hiyen.galmanhae.place.domain.placeinfo.PlaceInfo.WeatherInfo;
-import hiyen.galmanhae.place.repository.PlaceInfoRepository;
-import hiyen.galmanhae.place.repository.PlaceRepository;
+import hiyen.galmanhae.data.domain.Place;
+import hiyen.galmanhae.data.repository.CongestionRepository;
+import hiyen.galmanhae.data.repository.PlaceRepository;
+import hiyen.galmanhae.data.repository.WeatherRepository;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -21,10 +19,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-class DataProcessorIntegrationTest extends MockAPI {
+class WeatherCongestionDataProcessorIntegrationTest extends MockAPI {
 
 	@Autowired
-	private DataProcessor dataProcessor;
+	private WeatherCongestionDataProcessor weatherCongestionDataProcessor;
 
 	@Value("${client.congestion.service-key}")
 	private String congestionServiceKey;
@@ -33,18 +31,22 @@ class DataProcessorIntegrationTest extends MockAPI {
 	private PlaceRepository placeRepository;
 
 	@Autowired
-	private PlaceInfoRepository placeInfoRepository;
+	private WeatherRepository weatherRepository;
+
+	@Autowired
+	private CongestionRepository congestionRepository;
 
 	private String areaCode = "POI001";
 
 	@BeforeEach
 	void setUp() {
-		final PlaceInfo placeInfo = new PlaceInfo(
-			new AreaInfo(areaCode, "강남구"),
-			new LocationInfo("37.1234", "127.1234"),
-			new WeatherInfo("60", "127")
+		final Place place = Place.PlaceMapper.toPlace(
+			new Place.PlaceNameAndCode("Seoul Tower", areaCode),
+			new Place.Position(37.5512, 126.9882),
+			new Place.WeatherPosition(60, 127)
 		);
-		placeInfoRepository.save(placeInfo);
+
+		placeRepository.save(place);
 	}
 
 	@DisplayName("외부 API를 호출하여 데이터를 DB에 저장한다")
@@ -62,9 +64,10 @@ class DataProcessorIntegrationTest extends MockAPI {
 			.withHeader("Content-Type", "application/json")
 			.withBody(validCongestionResponse()), areaCode);
 
-		dataProcessor.process();
+		weatherCongestionDataProcessor.process();
 
-		assertThat(placeRepository.count()).isEqualTo(1);
+		assertThat(weatherRepository.count()).isEqualTo(1);
+		assertThat(congestionRepository.count()).isEqualTo(1);
 	}
 
 	private void setupCongestionStub(final ResponseDefinitionBuilder responseBuilder, final String areaCode) {
