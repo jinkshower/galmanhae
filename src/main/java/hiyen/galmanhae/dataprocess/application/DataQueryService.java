@@ -8,6 +8,7 @@ import hiyen.galmanhae.data.repository.WeatherRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +27,8 @@ public class DataQueryService {
 		return placeRepository.findAll();
 	}
 
+	@Transactional
 	public void saveAllPlaces(final List<Place> places) {
 		placeRepository.saveAll(places);
-	}
-
-	public void deleteAllPlaces() {
-		placeRepository.deleteAll();
 	}
 }

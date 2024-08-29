@@ -30,7 +30,6 @@ public class PlaceDataProcessor {
 	 * 장소 정보를 다운로드하여 db에 저장
 	 */
 	public void process() {
-		dataQueryService.deleteAllPlaces();
 		log.info("장소 정보 다운로드 및 저장 시작");
 		final InputStream fetch = placeFetchService.fetch();
 		List<Place> places;
