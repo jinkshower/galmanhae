@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
+@EqualsAndHashCode
 public class TimeAndPlace implements Serializable {
 
 	@Column
