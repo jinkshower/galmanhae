@@ -4,7 +4,6 @@ import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 @FeignClient(
 	name = "placeInfoClient",
 	url = "${client.placeinfo.url}",

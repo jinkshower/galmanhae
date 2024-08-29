@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
 	})
 	public ResponseEntity<ErrorResponse> handleNotFoundException(final RuntimeException exception) {
 		String message = exception.getMessage();
-		log.warn("NotFoundException: {}", message, exception);
+		log.info("NotFoundException: {}", message, exception);
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(message));
 	}
