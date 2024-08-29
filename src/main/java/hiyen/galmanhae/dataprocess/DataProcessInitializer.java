@@ -23,10 +23,10 @@ public class DataProcessInitializer {
 	 */
 	@EventListener(ApplicationReadyEvent.class)
 	public void init() {
-		log.info("애플리케이션이 시작되고 데이터 처리를 시작합니다");
+		log.info("애플리케이션이 시작되고 데이터 처리를 시작합니다. 현재 시간 {}", LocalDateTime.now());
 		placeDataProcessor.process();
 		weatherCongestionDataProcessor.process();
-		log.info("데이터 처리가 완료되었습니다.");
+		log.info("데이터 처리가 완료되었습니다. 현재 시간 {}", LocalDateTime.now());
 	}
 
 	/**
