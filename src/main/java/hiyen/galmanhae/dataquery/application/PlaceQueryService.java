@@ -13,10 +13,8 @@ import hiyen.galmanhae.dataquery.response.PlaceSearchResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlaceQueryService {
@@ -34,7 +32,6 @@ public class PlaceQueryService {
 			final Congestion congestion = congestionRepository.findMostRecentByPlaceId(place.id());
 			final PlaceDetails placeDetails = PlaceDetails.of(place, weather, congestion);
 
-			log.info("placeDetails: {}", placeDetails);
 			responses.add(PlaceResponse.from(place.id(), placeDetails));
 		}
 		return responses;

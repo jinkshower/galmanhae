@@ -5,9 +5,7 @@ import hiyen.galmanhae.data.domain.Congestion;
 import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Getter
 @RequiredArgsConstructor
 public enum CongestionLevel {
