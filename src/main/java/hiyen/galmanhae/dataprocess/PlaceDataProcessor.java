@@ -6,6 +6,7 @@ import hiyen.galmanhae.dataprocess.application.PlaceFetchService;
 import hiyen.galmanhae.dataprocess.exception.DataProcessUncheckedException.FailReadingFileException;
 import hiyen.galmanhae.dataprocess.util.DataParser;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class PlaceDataProcessor {
 			Map<String, byte[]> fileMap = dataParser.processZipFile(fetch);
 			places = dataParser.parse(fileMap, fileName);
 		} catch (Exception e) {
+			log.info("장소 정보 다운로드 및 저장 실패. 현재 시간 : {}", LocalDateTime.now(), e);
 			throw new FailReadingFileException(e);
 		}
 		dataQueryService.saveAllPlaces(places);

@@ -9,6 +9,7 @@ import hiyen.galmanhae.data.domain.WeatherAndCongestion;
 import hiyen.galmanhae.dataprocess.application.CongestionFetchService;
 import hiyen.galmanhae.dataprocess.application.DataQueryService;
 import hiyen.galmanhae.dataprocess.application.WeatherFetchService;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,7 +49,7 @@ public class WeatherCongestionDataProcessor {
 	private CompletableFuture<WeatherAndCongestion> toFuture(final Place place) {
 		return CompletableFuture.supplyAsync(() -> fetch(place))
 			.exceptionally(exception -> {
-				log.warn("외부 API 호출 및 가져오기에 실패했습니다: {}. Error: {}", place, exception.getMessage(), exception);
+				log.info("외부 API 호출 및 가져오기에 실패했습니다: 장소: {}. Error: {}. 현재 시간 : {}", place, exception, LocalDateTime.now());
 				return null;
 			});
 	}
