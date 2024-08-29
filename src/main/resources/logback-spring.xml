@@ -16,4 +16,11 @@
       <appender-ref ref="FILE-ERROR"/>
     </root>
   </springProfile>
+  <springProfile name="!prod">
+    <include resource="console-appender.xml"/>
+
+    <root level="DEBUG">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
 </configuration>
