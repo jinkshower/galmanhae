@@ -12,12 +12,31 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = {
-		DataException.NotFoundPlaceException.class
+		DataException.NotFoundPlaceException.class,
+		DataException.NotFoundCongestionException.class,
+		DataException.NotFoundWeatherException.class
 	})
-	public ResponseEntity<ErrorResponse> handleNotFoundException(final RuntimeException exception) {
-		String message = exception.getMessage();
+	public ResponseEntity<ErrorResponse> handleNotFoundException(final DataException exception) {
+		final String message = exception.getMessage();
 		log.info("NotFoundException: {}", message, exception);
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(message));
 	}
+
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<ErrorResponse> handleRuntimeException(final RuntimeException exception) {
+		final String message = exception.getMessage();
+		log.error("RuntimeException: {}", message, exception);
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(message));
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorResponse> handleException(final Exception exception) {
+		final String message = "An unexpected error occurred. Please try again later.";
+		log.error("Unhandled Exception: {}", exception.getMessage(), exception);
+
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(message));
+	}
+
 }
