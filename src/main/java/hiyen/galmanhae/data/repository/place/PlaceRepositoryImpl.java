@@ -34,10 +34,11 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 	@Override
 	public List<Place> saveAll(final List<Place> places) {
 		final List<PlaceEntity> entities = toEntities(places);
+		final int updatedVersion = incrementVersion();
 
 		final String sql = """
-			INSERT INTO place (name, code, latitude, longitude, weatherX, weatherY, created_at, updated_at)
-			VALUES (?, ?, ?, ?, ?, ?, now(), now())
+			INSERT INTO place (name, code, latitude, longitude, weatherX, weatherY, created_at, updated_at, version)
+			VALUES (?, ?, ?, ?, ?, ?, now(), now(), ?)
 			""";
 
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -50,6 +51,7 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 				ps.setDouble(4, place.getLongitude());
 				ps.setInt(5, place.getWeatherX());
 				ps.setInt(6, place.getWeatherY());
+				ps.setInt(7, updatedVersion);
 			}
 
 			@Override
@@ -61,9 +63,9 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 		return places;
 	}
 
-	@Override
-	public void deleteAll() {
-		placeJpaRepository.deleteAll();
+	private int incrementVersion() {
+		final Integer maxVersion = jdbcTemplate.queryForObject("SELECT MAX(version) FROM place", Integer.class);
+		return (maxVersion != null ? maxVersion : 0) + 1;
 	}
 
 	@Override

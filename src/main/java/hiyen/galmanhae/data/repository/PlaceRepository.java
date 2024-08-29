@@ -9,8 +9,6 @@ public interface PlaceRepository {
 
 	List<Place> saveAll(List<Place> places);
 
-	void deleteAll();
-
 	Place save(Place place);
 
 	long count();
