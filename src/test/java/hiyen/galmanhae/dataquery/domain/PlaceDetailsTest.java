@@ -1,6 +1,7 @@
 package hiyen.galmanhae.dataquery.domain;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import hiyen.galmanhae.data.domain.Congestion;
 import hiyen.galmanhae.data.domain.Place;
@@ -44,17 +45,19 @@ class PlaceDetailsTest {
 
 			final PlaceDetails placeDetails = PlaceDetails.of(place, weather, congestion);
 
-			assertThat(placeDetails).isNotNull();
-			assertThat(placeDetails.placeName()).isEqualTo(name);
-			assertThat(placeDetails.latitude()).isEqualTo(latitude);
-			assertThat(placeDetails.longitude()).isEqualTo(longitude);
-			assertThat(placeDetails.weatherDescription()).isEqualTo(
-				WeatherTempGrade.WARM.getDescription() + " " + WeatherRainingGrade.SUNNY.getDescription());
-			assertThat(placeDetails.weatherTemp()).isEqualTo(25.0);
-			assertThat(placeDetails.weatherRaining()).isEqualTo(0.0);
-			assertThat(placeDetails.congestionDescription()).isEqualTo(CongestionLevel.RELAXED.getDescription());
-			assertThat(placeDetails.congestionPeople()).isEqualTo(10);
-			assertThat(placeDetails.goOutLevel()).isEqualTo(GoOutLevel.HIGH);
+			assertAll(
+				() -> assertThat(placeDetails).isNotNull(),
+				() -> assertThat(placeDetails.placeName()).isEqualTo(name),
+				() -> assertThat(placeDetails.latitude()).isEqualTo(latitude),
+				() -> assertThat(placeDetails.longitude()).isEqualTo(longitude),
+				() -> assertThat(placeDetails.weatherDescription()).isEqualTo(
+					WeatherTempGrade.WARM.getDescription() + " " + WeatherRainingGrade.SUNNY.getDescription()),
+				() -> assertThat(placeDetails.weatherTemp()).isEqualTo(temp),
+				() -> assertThat(placeDetails.weatherRaining()).isEqualTo(raining),
+				() -> assertThat(placeDetails.congestionDescription()).isEqualTo(CongestionLevel.RELAXED.getDescription()),
+				() -> assertThat(placeDetails.congestionPeople()).isEqualTo(people),
+				() -> assertThat(placeDetails.goOutLevel()).isEqualTo(GoOutLevel.HIGH)
+			);
 		}
 
 		@DisplayName("생성 성공 - 날씨, 혼잡도 데이터가 없는 경우")
@@ -71,17 +74,19 @@ class PlaceDetailsTest {
 
 			final PlaceDetails placeDetails = PlaceDetails.of(place, weather, congestion);
 
-			assertThat(placeDetails).isNotNull();
-			assertThat(placeDetails.placeName()).isEqualTo(name);
-			assertThat(placeDetails.latitude()).isEqualTo(latitude);
-			assertThat(placeDetails.longitude()).isEqualTo(longitude);
-			assertThat(placeDetails.weatherDescription()).isEqualTo(
-				WeatherTempGrade.NONE.getDescription() + " " + WeatherRainingGrade.NONE.getDescription());
-			assertThat(placeDetails.weatherTemp()).isEqualTo(-1);
-			assertThat(placeDetails.weatherRaining()).isEqualTo(-1);
-			assertThat(placeDetails.congestionDescription()).isEqualTo(CongestionLevel.NONE.getDescription());
-			assertThat(placeDetails.congestionPeople()).isEqualTo(-1);
-			assertThat(placeDetails.goOutLevel()).isEqualTo(GoOutLevel.NONE);
+			assertAll(
+				() -> assertThat(placeDetails).isNotNull(),
+				() -> assertThat(placeDetails.placeName()).isEqualTo(name),
+				() -> assertThat(placeDetails.latitude()).isEqualTo(latitude),
+				() -> assertThat(placeDetails.longitude()).isEqualTo(longitude),
+				() -> assertThat(placeDetails.weatherDescription()).isEqualTo(
+					WeatherTempGrade.NONE.getDescription() + " " + WeatherRainingGrade.NONE.getDescription()),
+				() -> assertThat(placeDetails.weatherTemp()).isEqualTo(-1),
+				() -> assertThat(placeDetails.weatherRaining()).isEqualTo(-1),
+				() -> assertThat(placeDetails.congestionDescription()).isEqualTo(CongestionLevel.NONE.getDescription()),
+				() -> assertThat(placeDetails.congestionPeople()).isEqualTo(-1),
+				() -> assertThat(placeDetails.goOutLevel()).isEqualTo(GoOutLevel.NONE)
+			);
 		}
 	}
 }
