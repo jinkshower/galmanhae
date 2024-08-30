@@ -7,13 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PlaceJpaRepository extends JpaRepository<PlaceEntity, Long> {
 
-	@Query("""
-		SELECT p FROM PlaceEntity p
-		WHERE p.version = (
-		    SELECT MAX(p2.version) 
-		    FROM PlaceEntity p2
-		)
-		""")
 	List<PlaceEntity> findAll();
 
 	@Query("""
