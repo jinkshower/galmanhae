@@ -31,14 +31,23 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 			.toList();
 	}
 
+	/**
+	 * 최신의 장소 목록을 유지하기 위해 upsert를 사용. 장소 코드가 중복되면 업데이트하고, 그렇지 않으면 새로운 장소를 추가한다.
+	 */
 	@Override
 	public List<Place> saveAll(final List<Place> places) {
 		final List<PlaceEntity> entities = toEntities(places);
-		final int updatedVersion = incrementVersion();
 
 		final String sql = """
-			INSERT INTO place (name, code, latitude, longitude, weatherX, weatherY, created_at, updated_at, version)
-			VALUES (?, ?, ?, ?, ?, ?, now(), now(), ?)
+			INSERT INTO place (name, code, latitude, longitude, weatherX, weatherY, created_at, updated_at)
+			VALUES (?, ?, ?, ?, ?, ?, now(), now())
+			ON DUPLICATE KEY UPDATE
+			name = VALUES(name),
+			latitude = VALUES(latitude),
+			longitude = VALUES(longitude),
+			weatherX = VALUES(weatherX),
+			weatherY = VALUES(weatherY),
+			updated_at = now()
 			""";
 
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -51,7 +60,6 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 				ps.setDouble(4, place.getLongitude());
 				ps.setInt(5, place.getWeatherX());
 				ps.setInt(6, place.getWeatherY());
-				ps.setInt(7, updatedVersion);
 			}
 
 			@Override
@@ -61,11 +69,6 @@ public class PlaceRepositoryImpl implements PlaceRepository {
 		});
 
 		return places;
-	}
-
-	private int incrementVersion() {
-		final Integer maxVersion = jdbcTemplate.queryForObject("SELECT MAX(version) FROM place", Integer.class);
-		return (maxVersion != null ? maxVersion : 0) + 1;
 	}
 
 	@Override

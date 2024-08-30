@@ -39,6 +39,20 @@ class PlaceDataProcessorIntegrationTest extends MockAPI {
 		assertThat(placeRepository.count()).isEqualTo(1);
 	}
 
+	@DisplayName("외부 API 호출이 두번 이상 일때 최신의 데이터만 저장한다")
+	@Test
+	void downloadParseSaveTwice() throws URISyntaxException, IOException {
+		setupPlaceInfoStub(aResponse()
+			.withStatus(200)
+			.withHeader("Content-Type", "application/x-msdownload")
+			.withBody(validPlaceInfoResponse()));
+
+		placeDataProcessor.process();
+		placeDataProcessor.process();
+
+		assertThat(placeRepository.count()).isEqualTo(1);
+	}
+
 	private void setupPlaceInfoStub(final ResponseDefinitionBuilder responseBuilder) {
 		stubFor(post(urlPathEqualTo("/bigfile/iot/inf/nio_download.do"))
 			.withQueryParam("infId", matching(".*"))
