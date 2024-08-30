@@ -1,9 +1,8 @@
-package hiyen.galmanhae.place.domain.place;
+package hiyen.galmanhae.data.domain;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import hiyen.galmanhae.data.domain.Place;
 import hiyen.galmanhae.data.domain.Place.PlaceMapper;
 import hiyen.galmanhae.data.domain.Place.PlaceNameAndCode;
 import hiyen.galmanhae.data.domain.Place.Position;
