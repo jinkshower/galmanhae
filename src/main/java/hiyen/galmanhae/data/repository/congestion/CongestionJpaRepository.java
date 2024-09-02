@@ -12,7 +12,7 @@ public interface CongestionJpaRepository extends JpaRepository<CongestionEntity,
 		SELECT * 
 		FROM congestion c 
 		WHERE c.place_id = :placeId 
-		ORDER BY c.measured_at DESC 
+		ORDER BY c.created_at DESC 
 		LIMIT 1
 		""", nativeQuery = true)
 	Optional<CongestionEntity> findMostRecentByPlaceId(@Param("placeId") Long placeId);

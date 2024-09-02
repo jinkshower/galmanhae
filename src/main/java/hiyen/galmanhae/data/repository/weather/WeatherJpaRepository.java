@@ -11,7 +11,7 @@ public interface WeatherJpaRepository extends JpaRepository<WeatherEntity, Long>
 	@Query(value = """
 		SELECT * FROM weather w 
 		WHERE w.place_id = :placeId 
-		ORDER BY w.measured_at DESC 
+		ORDER BY w.created_at DESC 
 		LIMIT 1
 		""", nativeQuery = true)
 	Optional<WeatherEntity> findMostRecentByPlaceId(@Param("placeId") Long placeId);

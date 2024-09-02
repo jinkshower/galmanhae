@@ -28,18 +28,17 @@ public class CongestionRepositoryImpl implements CongestionRepository {
 		final List<CongestionEntity> congestionEntities = toEntities(weatherAndCongestions);
 
 		final String sql = """
-			INSERT INTO congestion (measured_at, place_id, current_people, congestion_indicator, created_at, updated_at)
-			VALUES (?, ?, ?, ?, now(), now())
+			INSERT INTO congestion (place_id, current_people, congestion_indicator, created_at, updated_at)
+			VALUES (?, ?, ?, now(), now())
 			""";
 
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				final CongestionEntity congestion = congestionEntities.get(i);
-				ps.setTimestamp(1, java.sql.Timestamp.valueOf(congestion.getTimeAndPlace().getMeasuredAt()));
-				ps.setLong(2, congestion.getTimeAndPlace().getPlaceId());
-				ps.setInt(3, congestion.getCurrentPeople());
-				ps.setString(4, congestion.getCongestionIndicator());
+				ps.setLong(1, congestion.getPlaceId());
+				ps.setInt(2, congestion.getCurrentPeople());
+				ps.setString(3, congestion.getCongestionIndicator());
 			}
 
 			@Override
