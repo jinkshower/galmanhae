@@ -11,4 +11,6 @@ public interface WeatherRepository {
 	Weather findMostRecentByPlaceId(Long placeId);
 
 	long count();
+
+	List<Weather> findMostRecentByPlaceIds(List<Long> placeIds);
 }

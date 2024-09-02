@@ -10,8 +10,9 @@ import hiyen.galmanhae.dataquery.domain.PlaceDetails;
 import hiyen.galmanhae.dataquery.response.PlaceDetailResponse;
 import hiyen.galmanhae.dataquery.response.PlaceResponse;
 import hiyen.galmanhae.dataquery.response.PlaceSearchResponse;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +25,27 @@ public class PlaceQueryService {
 	private final CongestionRepository congestionRepository;
 
 	public List<PlaceResponse> getAllPlaces() {
-		final List<Place> all = placeRepository.findAll();
-		final List<PlaceResponse> responses = new ArrayList<>();
+		final List<Place> allPlaces = placeRepository.findAll();
+		final List<Long> placeIds = allPlaces.stream()
+			.map(Place::id)
+			.toList();
 
-		for (Place place : all) {
-			final Weather weather = weatherRepository.findMostRecentByPlaceId(place.id());
-			final Congestion congestion = congestionRepository.findMostRecentByPlaceId(place.id());
-			final PlaceDetails placeDetails = PlaceDetails.of(place, weather, congestion);
+		final List<Weather> weathers = weatherRepository.findMostRecentByPlaceIds(placeIds);
+		final List<Congestion> congestions = congestionRepository.findMostRecentByPlaceIds(placeIds);
 
-			responses.add(PlaceResponse.from(place.id(), placeDetails));
-		}
-		return responses;
+		final Map<Long, Weather> weatherMap = weathers.stream()
+			.collect(Collectors.toMap(Weather::placeId, weather -> weather));
+		final Map<Long, Congestion> congestionMap = congestions.stream()
+			.collect(Collectors.toMap(Congestion::placeId, congestion -> congestion));
+
+		return allPlaces.stream()
+			.map(place -> {
+				final Weather weather = weatherMap.getOrDefault(place.id(), Weather.of(-1, -1));
+				final Congestion congestion = congestionMap.getOrDefault(place.id(), Congestion.of(-1, "NONE"));
+				final PlaceDetails placeDetails = PlaceDetails.of(place, weather, congestion);
+				return PlaceResponse.from(place.id(), placeDetails);
+			})
+			.toList();
 	}
 
 	public PlaceDetailResponse getPlace(final Long placeId) {
