@@ -28,18 +28,17 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 		final List<WeatherEntity> weatherEntities = toEntities(weatherAndCongestions);
 
 		final String sql = """
-			INSERT INTO weather (measured_at, place_id, temperature, raining_probability, created_at, updated_at)
-			VALUES (?, ?, ?, ?, now(), now())
+			INSERT INTO weather (place_id, temperature, raining_probability, created_at, updated_at)
+			VALUES (?, ?, ?, now(), now())
 			""";
 
 		jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				final WeatherEntity weather = weatherEntities.get(i);
-				ps.setTimestamp(1, java.sql.Timestamp.valueOf(weather.getTimeAndPlace().getMeasuredAt()));
-				ps.setLong(2, weather.getTimeAndPlace().getPlaceId());
-				ps.setDouble(3, weather.getTemperature());
-				ps.setDouble(4, weather.getRainingProbability());
+				ps.setLong(1, weather.getPlaceId());
+				ps.setDouble(2, weather.getTemperature());
+				ps.setDouble(3, weather.getRainingProbability());
 			}
 
 			@Override
