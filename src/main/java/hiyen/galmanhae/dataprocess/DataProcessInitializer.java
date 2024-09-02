@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class DataProcessInitializer {
 	/**
 	 * 매 시간마다 외부 API를 호출하여 데이터를 가져오고 Place 테이블에 저장
 	 */
+	@Async
 	@Scheduled(cron = "0 0 * * * ?")
 	public void hourlyProcess() {
 		log.info("매 시간마다 최신의 인구, 날씨 데이터를 처리합니다. 현재 시간 {}", LocalDateTime.now());
