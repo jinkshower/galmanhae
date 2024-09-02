@@ -2,7 +2,7 @@ package hiyen.galmanhae.data.repository.place;
 
 import hiyen.galmanhae.data.domain.Place;
 import hiyen.galmanhae.data.entity.PlaceEntity;
-import hiyen.galmanhae.data.exception.DataException.NotFoundPlaceException;
+import hiyen.galmanhae.data.exception.NotFoundException.NotFoundPlaceException;
 import hiyen.galmanhae.data.repository.PlaceRepository;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
