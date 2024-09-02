@@ -60,6 +60,13 @@ public class CongestionRepositoryImpl implements CongestionRepository {
 		return congestionJpaRepository.count();
 	}
 
+	@Override
+	public List<Congestion> findMostRecentByPlaceIds(final List<Long> placeIds) {
+		return congestionJpaRepository.findMostRecentByPlaceIds(placeIds).stream()
+			.map(CongestionEntity::toDomain)
+			.toList();
+	}
+
 	private static List<CongestionEntity> toEntities(final List<WeatherAndCongestion> weatherAndCongestions) {
 		return weatherAndCongestions.stream()
 			.map(wc -> CongestionEntity.toEntity(wc.congestion(), wc.placeId()))

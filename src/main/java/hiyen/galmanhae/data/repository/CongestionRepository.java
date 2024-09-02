@@ -11,4 +11,6 @@ public interface CongestionRepository {
 	Congestion findMostRecentByPlaceId(Long placeId);
 
 	long count();
+
+	List<Congestion> findMostRecentByPlaceIds(List<Long> placeIds);
 }

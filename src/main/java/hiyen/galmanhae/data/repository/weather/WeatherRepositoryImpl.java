@@ -60,6 +60,13 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 		return weatherJpaRepository.count();
 	}
 
+	@Override
+	public List<Weather> findMostRecentByPlaceIds(final List<Long> placeIds) {
+		return weatherJpaRepository.findMostRecentByPlaceIds(placeIds).stream()
+			.map(WeatherEntity::toDomain)
+			.toList();
+	}
+
 	private static List<WeatherEntity> toEntities(final List<WeatherAndCongestion> weatherAndCongestions) {
 		return weatherAndCongestions.stream()
 			.map(wc -> WeatherEntity.toEntity(wc.weather(), wc.placeId()))
