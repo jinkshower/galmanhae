@@ -18,13 +18,14 @@ public interface WeatherJpaRepository extends JpaRepository<WeatherEntity, Long>
 	Optional<WeatherEntity> findMostRecentByPlaceId(@Param("placeId") Long placeId);
 
 	@Query(value = """
-		SELECT *
+		SELECT w1.*
 		FROM weather w1
-		WHERE w1.created_at = (
-		    SELECT MAX(w2.created_at)
-		    FROM weather w2
-		    WHERE w2.place_id = w1.place_id
-		) AND w1.place_id IN :placeIds
+		INNER JOIN (
+		    SELECT place_id, MAX(created_at) AS max_created_at
+		    FROM weather
+		    WHERE place_id IN :placeIds
+		    GROUP BY place_id
+		) w2 ON w1.place_id = w2.place_id AND w1.created_at = w2.max_created_at
 		""", nativeQuery = true)
 	List<WeatherEntity> findMostRecentByPlaceIds(@Param("placeIds") List<Long> placeIds);
 }

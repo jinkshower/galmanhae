@@ -19,13 +19,14 @@ public interface CongestionJpaRepository extends JpaRepository<CongestionEntity,
 	Optional<CongestionEntity> findMostRecentByPlaceId(@Param("placeId") Long placeId);
 
 	@Query(value = """
-		SELECT *
+		SELECT c1.*
 		FROM congestion c1
-		WHERE c1.created_at = (
-		    SELECT MAX(c2.created_at)
-		    FROM congestion c2
-		    WHERE c2.place_id = c1.place_id
-		) AND c1.place_id IN :placeIds
+		INNER JOIN (
+		    SELECT place_id, MAX(created_at) AS max_created_at
+		    FROM congestion
+		    WHERE place_id IN :placeIds
+		    GROUP BY place_id
+		) c2 ON c1.place_id = c2.place_id AND c1.created_at = c2.max_created_at
 		""", nativeQuery = true)
-	List<CongestionEntity> findMostRecentByPlaceIds(List<Long> placeIds);
+	List<CongestionEntity> findMostRecentByPlaceIds(@Param("placeIds") List<Long> placeIds);
 }
