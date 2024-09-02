@@ -45,6 +45,10 @@ public class WeatherEntity extends BaseEntity {
 	}
 
 	public static Weather toDomain(final WeatherEntity entity) {
-		return Weather.of(entity.getTemperature(), entity.getRainingProbability());
+		return new Weather(
+			entity.getPlaceId(),
+			entity.getTemperature(),
+			entity.getRainingProbability()
+		);
 	}
 }

@@ -49,6 +49,10 @@ public class CongestionEntity extends BaseEntity {
 	}
 
 	public static Congestion toDomain(final CongestionEntity entity) {
-		return Congestion.of(entity.getCurrentPeople(), entity.getCongestionIndicator());
+		return new Congestion(
+			entity.getPlaceId(),
+			entity.getCurrentPeople(),
+			entity.getCongestionIndicator()
+		);
 	}
 }
