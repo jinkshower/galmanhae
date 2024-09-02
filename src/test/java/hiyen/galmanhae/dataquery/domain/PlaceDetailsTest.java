@@ -40,8 +40,8 @@ class PlaceDetailsTest {
 				new Place.WeatherPosition(weatherX, weatherY)
 			);
 
-			final Weather weather = new Weather(temp, raining);
-			final Congestion congestion = new Congestion(people, congestionIndicator);
+			final Weather weather = Weather.of(temp, raining);
+			final Congestion congestion = Congestion.of(people, congestionIndicator);
 
 			final PlaceDetails placeDetails = PlaceDetails.of(place, weather, congestion);
 
@@ -69,8 +69,8 @@ class PlaceDetailsTest {
 				new Place.WeatherPosition(weatherX, weatherY)
 			);
 
-			final Weather weather = new Weather(-1, -1);
-			final Congestion congestion = new Congestion(-1, "NONE");
+			final Weather weather = Weather.of(-1, -1);
+			final Congestion congestion = Congestion.of(-1, "NONE");
 
 			final PlaceDetails placeDetails = PlaceDetails.of(place, weather, congestion);
 
