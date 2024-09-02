@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 /*
  * 전 과정을 테스트하기 위한 개발에 사용하는 클래스.
@@ -28,6 +29,7 @@ public class DataProcessTest {
 	private PlaceRepository placeRepository;
 
 	@Test
+	@Transactional
 	void test() {
 		placeDataProcessor.process();
 		weatherCongestionDataProcessor.process();
