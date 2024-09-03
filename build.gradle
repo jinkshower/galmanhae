@@ -51,6 +51,10 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 
+    // APM
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
     // GeoTools 모듈 추가
     implementation 'org.geotools:gt-shapefile:25.2'
     implementation 'org.geotools:gt-swing:25.2'
