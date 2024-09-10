@@ -64,7 +64,7 @@ public class WeatherCongestionDataProcessor {
 	private CompletableFuture<WeatherAndCongestion> toFuture(final Place place) {
 		return CompletableFuture.supplyAsync(() -> fetch(place), weatherCongestionAPIThreadPool)
 			.exceptionally(exception -> {
-				log.info("외부 API 호출 및 가져오기에 실패했습니다: 장소: {}. Error: {}. 현재 시간 : {}", place, exception, LocalDateTime.now());
+				log.debug("외부 API 호출 및 가져오기에 실패했습니다: 장소: {}. Error: {}. 현재 시간 : {}", place, exception, LocalDateTime.now());
 				return null;
 			});
 	}
