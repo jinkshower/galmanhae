@@ -70,5 +70,5 @@ jobs:
             sudo docker stop galmanhae || true
             sudo docker rm galmanhae || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/galmanhae:latest
-            sudo docker run -d -p 8080:8080 -p 8040:8040 --name galmanhae -v /home/${{ secrets.HOST_USERNAME }}/log:/log ${{ secrets.DOCKER_USERNAME }}/galmanhae:latest
+            sudo docker run -d --network host --name galmanhae -v /home/${{ secrets.HOST_USERNAME }}/log:/log ${{ secrets.DOCKER_USERNAME }}/galmanhae:latest
             sudo docker image prune -f
