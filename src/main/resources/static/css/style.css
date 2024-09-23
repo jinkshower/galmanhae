@@ -1,3 +1,20 @@
+/* 전체 레이아웃 */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+/* 지도 영역 */
+#map {
+  width: 100%;
+  height: 100%;
+  transition: width 0.3s;
+}
+
+/* place-info 스타일 */
 #place-info {
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -23,20 +40,7 @@
   color: #555;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-#map {
-  width: 100%;
-  height: 100%;
-  transition: width 0.3s;
-}
-
+/* placeInfoContainer 스타일 - 기본적으로 숨김 처리 */
 #placeInfoContainer {
   display: none;
   width: 0;
@@ -46,6 +50,7 @@ html, body {
   padding: 20px;
 }
 
+/* 검색창 스타일 */
 #search-container {
   position: absolute;
   top: 10px;
@@ -59,15 +64,17 @@ html, body {
   align-items: center;
 }
 
+/* 검색창 입력 필드 */
 #search-container input {
   width: 300px;
   padding: 10px;
-  border: transparent;
+  border: none; /* 테두리 제거 */
   border-radius: 3px;
   margin-right: 10px;
   background-color: lightgrey;
 }
 
+/* 검색 버튼 */
 #search-container button {
   padding: 10px 20px;
   background-color: #df6658;
@@ -76,7 +83,7 @@ html, body {
   cursor: pointer;
 }
 
-
+/* 검색 결과 스타일 */
 #search-results {
   position: absolute;
   top: 100%; /* 검색창 바로 아래에 위치 */
@@ -97,4 +104,60 @@ html, body {
 
 .search-result-item:hover {
   background-color: #f0f0f0;
+}
+
+/* 반응형 디자인 적용 */
+/* 태블릿 이하 크기 (max-width: 1024px) */
+@media (max-width: 1024px) {
+  #search-container input {
+    width: 250px; /* 태블릿에서 검색창 크기 조정 */
+  }
+
+  #search-container button {
+    padding: 8px 16px; /* 버튼 크기 조정 */
+  }
+}
+
+/* 모바일 크기 (max-width: 768px) */
+@media (max-width: 768px) {
+  #search-container input {
+    width: 200px; /* 모바일 화면에서 검색창 크기 줄임 */
+  }
+
+  #search-container button {
+    padding: 8px 16px; /* 모바일 화면에서 버튼 크기 조정 */
+  }
+
+  /* place-info가 화면 아래로 작아지는 설정 */
+  #place-info h2 {
+    font-size: 20px;
+    padding: 8px;
+  }
+
+  #place-info p {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+}
+
+/* 작은 모바일 화면 (max-width: 480px) */
+@media (max-width: 480px) {
+  #search-container input {
+    width: 150px; /* 더 작은 화면에서 검색창 크기 줄임 */
+  }
+
+  #search-container button {
+    padding: 6px 12px; /* 작은 화면에서 버튼 크기 조정 */
+  }
+
+  /* place-info 텍스트 더 작게 */
+  #place-info h2 {
+    font-size: 18px;
+    padding: 6px;
+  }
+
+  #place-info p {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
 }
