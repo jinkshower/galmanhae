@@ -1,5 +1,3 @@
-import {PlaceInfoModule} from './PlaceInfoModule.js';
-
 export class SearchModule {
   constructor(mapModule) {
     this.mapModule = mapModule;
@@ -55,8 +53,11 @@ export class SearchModule {
       placeElement.innerText = placeSearchResponse.placeName;
 
       placeElement.addEventListener('click', () => {
-        this.fetchPlaceDetails(placeSearchResponse.placeId,
-            placeSearchResponse.latitude, placeSearchResponse.longitude);
+        this.fetchPlaceDetails(
+            placeSearchResponse.placeId,
+            placeSearchResponse.latitude,
+            placeSearchResponse.longitude
+        );
         resultsContainer.style.display = 'none'; // 검색 결과를 클릭 시 결과 창을 숨깁니다.
       });
 
@@ -70,11 +71,11 @@ export class SearchModule {
     axios.get(`/api/places/${placeId}`)
     .then(response => {
       const placeDetails = response.data;
-      PlaceInfoModule.displayPlaceInfo(placeDetails);
-      this.mapModule.adjustMapSize();
+      const position = new kakao.maps.LatLng(latitude, longitude);
 
-      // 검색 결과 클릭 시 해당 위치로 지도 중심 이동
-      this.mapModule.setCenter(new kakao.maps.LatLng(latitude, longitude));
+      // 지도 중심 이동 및 오버레이 표시
+      this.mapModule.setCenter(position);
+      this.mapModule.showCustomOverlay(placeDetails, position);
     })
     .catch(error => {
       console.error('Error fetching place details:', error);

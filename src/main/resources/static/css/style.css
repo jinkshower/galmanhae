@@ -161,3 +161,52 @@ html, body {
     margin-bottom: 6px;
   }
 }
+
+/* 오버레이 스타일 */
+.overlay-container {
+  position: relative;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.overlay-content {
+  width: 200px;
+}
+
+.overlay-content h2 {
+  font-size: 18px;
+  margin: 0 0 10px 0;
+  background-color: #df6658;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.overlay-content p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #333;
+}
+
+.overlay-content strong {
+  font-weight: bold;
+  color: #555;
+}
+
+.overlay-content .close-overlay {
+  background-color: #df6658;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-top: 10px;
+}
+
+.overlay-content .close-overlay:hover {
+  background-color: #c04b46;
+}
