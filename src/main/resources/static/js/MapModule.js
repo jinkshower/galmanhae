@@ -3,12 +3,59 @@ export class MapModule {
     this.mapContainer = document.getElementById(mapContainerId);
     this.mapOptions = options;
     this.map = this.initializeMap();
-    this.loadAllPlaces();
     this.customOverlay = null; // 오버레이 저장용 변수
+    this.currentPosition = null; // 사용자 위치 저장용 변수
+    this.defaultPosition = new kakao.maps.LatLng(37.5665, 126.9780); // 기본 좌표 (예: 서울 시청)
+    this.loadAllPlaces();
+    this.initLocationButton(); // 내 위치로 버튼 초기화
   }
 
   initializeMap() {
     return new kakao.maps.Map(this.mapContainer, this.mapOptions);
+  }
+
+  // 내 위치로 버튼 초기화
+  initLocationButton() {
+    const locationButton = document.getElementById('current-location-button');
+
+    // 버튼 클릭 시 위치 요청
+    locationButton.addEventListener('click', () => {
+      if (this.currentPosition) {
+        this.setCenter(this.currentPosition); // 현재 위치로 지도 중심 이동
+      } else {
+        this.getUserLocation(); // 위치가 없으면 새로 가져옴
+      }
+    });
+
+    // 페이지 로드 시 사용자 위치를 가져와 지도 중심 설정
+    this.getUserLocation();
+  }
+
+  // 사용자 위치 가져오기 (Geolocation API)
+  getUserLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            this.currentPosition = new kakao.maps.LatLng(lat, lon);
+
+            // 지도 중심을 현재 위치로 설정
+            this.setCenter(this.currentPosition);
+          },
+          () => {
+            // 실패 시 아무 알림 없이 기본 좌표로 지도 중심 설정
+            this.setCenter(this.defaultPosition);
+          }
+      );
+    } else {
+      // Geolocation API 지원하지 않을 경우, 기본 좌표로 지도 이동
+      this.setCenter(this.defaultPosition);
+    }
+  }
+
+  setCenter(position) {
+    this.map.setCenter(position);
   }
 
   addMarker(place) {
@@ -57,11 +104,6 @@ export class MapModule {
     });
   }
 
-  setCenter(position) {
-    // 지도 이동
-    this.map.setCenter(position);
-  }
-
   fetchPlaceDetails(placeId, position) {
     axios.get(`/api/places/${placeId}`)
     .then((response) => {
@@ -78,14 +120,11 @@ export class MapModule {
     });
   }
 
-  // 마커 클릭 시 오버레이로 정보 표시
   showCustomOverlay(placeDetails, position) {
-    // 이전 오버레이가 있다면 제거
     if (this.customOverlay) {
       this.customOverlay.setMap(null);
     }
 
-    // 오버레이 내용 생성
     const overlayContent = `
       <div class="overlay-container">
         <div class="overlay-content">
@@ -101,7 +140,6 @@ export class MapModule {
       </div>
     `;
 
-    // 오버레이 생성
     this.customOverlay = new kakao.maps.CustomOverlay({
       position: position,
       content: overlayContent,
@@ -109,7 +147,6 @@ export class MapModule {
       map: this.map,
     });
 
-    // 닫기 버튼 이벤트 처리
     document.querySelector('.close-overlay').addEventListener('click', () => {
       this.customOverlay.setMap(null);
     });
