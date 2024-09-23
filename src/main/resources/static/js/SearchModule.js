@@ -11,10 +11,21 @@ export class SearchModule {
     const searchButton = document.querySelector('#search-container button');
     const keyWordInput = document.querySelector('#keyword');
 
+    // '갈만해?' 버튼 클릭 시 검색 수행
     searchButton.addEventListener('click', () => {
       const keyWord = keyWordInput.value.trim();
       if (keyWord) {
         this.searchPlaces(keyWord);
+      }
+    });
+
+    // 엔터 키 입력 시 검색 수행
+    keyWordInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const keyWord = keyWordInput.value.trim();
+        if (keyWord) {
+          this.searchPlaces(keyWord);
+        }
       }
     });
   }
