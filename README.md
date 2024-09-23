@@ -2,6 +2,8 @@
 
 > 지금 서울, 이 장소 갈만해? 👉 https://galmanhae.site/
 
+<img src="https://github.com/user-attachments/assets/9bf6f420-1973-4029-85c3-aeb7cdddca43" alt="image" width="400"/>
+
 ## 📖 Description
 
 서울에서 외출을 하려는데, 그 장소의 날씨는 좋은 지, 사람은 너무 많지 않을 지 고민한 적 없으신가요?
@@ -50,6 +52,11 @@
 에서 확인 할 수 있습니다.
 
 ## Project Structure
+
+<img src="https://github.com/user-attachments/assets/9dcfc3c7-75ef-4e08-a529-78d7dae2d2f8" alt="Project Structure" width="600"/>
+
+<details>
+  <summary>Click</summary>
 
 ```markdown
 ├── GalmanhaeApplication.java
@@ -125,5 +132,5 @@
 └── exception
 ├── ErrorResponse.java
 └── GlobalExceptionHandler.java
-
+</details>
 ```
