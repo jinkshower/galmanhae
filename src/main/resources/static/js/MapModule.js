@@ -8,10 +8,26 @@ export class MapModule {
     this.defaultPosition = new kakao.maps.LatLng(37.5665, 126.9780); // 기본 좌표 (예: 서울 시청)
     this.loadAllPlaces();
     this.initLocationButton(); // 내 위치로 버튼 초기화
+
+    // 창 크기 변경 시 지도 리사이즈 처리
+    window.addEventListener("resize", () => {
+      this.map.relayout(); // 지도를 리사이즈함
+      if (this.currentPosition) {
+        this.setCenter(this.currentPosition); // 현재 위치로 다시 설정
+      } else {
+        this.setCenter(this.defaultPosition); // 기본 위치로 설정
+      }
+    });
   }
 
   initializeMap() {
-    return new kakao.maps.Map(this.mapContainer, this.mapOptions);
+    const map = new kakao.maps.Map(this.mapContainer, this.mapOptions);
+
+    // 모바일에서도 줌과 드래그가 가능하게 설정
+    map.setDraggable(true);
+    map.setZoomable(true);
+
+    return map;
   }
 
   // 내 위치로 버튼 초기화
@@ -61,11 +77,8 @@ export class MapModule {
   addMarker(place) {
     const markerPosition = new kakao.maps.LatLng(place.latitude,
         place.longitude);
-    const imageSrc = this.getMarkerImageSrc(place.goOutLevel);
-    const imageSize = new kakao.maps.Size(45, 51);
-    const imageOption = {offset: new kakao.maps.Point(27, 69)};
-    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize,
-        imageOption);
+    const markerImage = this.getMarkerImageSrc(place.goOutLevel);
+
     const marker = new kakao.maps.Marker({
       position: markerPosition,
       image: markerImage,
@@ -80,15 +93,21 @@ export class MapModule {
   }
 
   getMarkerImageSrc(goOutLevel) {
+    // 화면 너비의 5%로 설정하되, 최소 30px, 최대 50px로 제한
+    const baseSize = Math.min(Math.max(window.innerWidth * 0.05, 30), 50);
+    const imageSize = new kakao.maps.Size(baseSize, baseSize * 1.1); // 가로세로 비율 적용
+
     switch (goOutLevel) {
       case 'LOW':
-        return '/image/marker_copper.png';
+        return new kakao.maps.MarkerImage('/image/marker_copper.png',
+            imageSize);
       case 'MEDIUM':
-        return '/image/marker_silver.png';
+        return new kakao.maps.MarkerImage('/image/marker_silver.png',
+            imageSize);
       case 'HIGH':
-        return '/image/marker_gold.png';
+        return new kakao.maps.MarkerImage('/image/marker_gold.png', imageSize);
       default:
-        return '/image/marker.png';
+        return new kakao.maps.MarkerImage('/image/marker.png', imageSize);
     }
   }
 
@@ -109,11 +128,9 @@ export class MapModule {
     .then((response) => {
       const placeDetails = response.data;
 
-      // 지도 이동 후 오버레이 표시
-      this.setCenter(position); // 지도 이동
-      setTimeout(() => {
-        this.showCustomOverlay(placeDetails, position); // 오버레이 표시
-      }, 200); // 약간의 지연 시간 적용
+      // 오버레이를 먼저 표시하고 나서 지도 중심 이동을 처리
+      this.showCustomOverlay(placeDetails, position);
+      this.setCenter(position); // 오버레이 표시 후 지도 이동
     })
     .catch((error) => {
       console.error('Error fetching place details:', error);
@@ -125,18 +142,18 @@ export class MapModule {
       this.customOverlay.setMap(null);
     }
 
-    const overlayContent = `
-      <div class="overlay-container">
-        <div class="overlay-content">
-          <h2>${placeDetails.name}</h2>
-          <p>${placeDetails.goOutLevelDescription}</p>
-          <p><strong>날씨:</strong> ${placeDetails.weatherDescription}</p>
-          <p><strong>온도:</strong> ${placeDetails.weatherTemp}도</p>
-          <p><strong>강수 확률:</strong> ${placeDetails.weatherRaining}%</p>
-          <p><strong>혼잡도:</strong> ${placeDetails.congestionDescription}</p>
-          <p><strong>실시간 인구 수:</strong> ${placeDetails.congestionPeople}명</p>
-          <button class="close-overlay">닫기</button>
-        </div>
+    const overlayContent = document.createElement('div');
+    overlayContent.classList.add('overlay-container');
+    overlayContent.innerHTML = `
+      <div class="overlay-content">
+        <h2>${placeDetails.name}</h2>
+        <p>${placeDetails.goOutLevelDescription}</p>
+        <p><strong>날씨:</strong> ${placeDetails.weatherDescription}</p>
+        <p><strong>온도:</strong> ${placeDetails.weatherTemp}도</p>
+        <p><strong>강수 확률:</strong> ${placeDetails.weatherRaining}%</p>
+        <p><strong>혼잡도:</strong> ${placeDetails.congestionDescription}</p>
+        <p><strong>실시간 인구 수:</strong> ${placeDetails.congestionPeople}명</p>
+        <button class="close-overlay">X</button>
       </div>
     `;
 
@@ -147,8 +164,10 @@ export class MapModule {
       map: this.map,
     });
 
-    document.querySelector('.close-overlay').addEventListener('click', () => {
-      this.customOverlay.setMap(null);
-    });
+    // 오버레이 닫기 이벤트 설정
+    overlayContent.querySelector('.close-overlay').addEventListener('click',
+        () => {
+          this.customOverlay.setMap(null);
+        });
   }
 }

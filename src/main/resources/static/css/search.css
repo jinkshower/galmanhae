@@ -1,0 +1,55 @@
+/* 검색창 스타일 */
+#search-container {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.3125rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+/* 검색창 입력 필드 */
+#search-container input {
+  width: 18.75rem;
+  padding: 0.625rem;
+  border: none;
+  border-radius: 0.1875rem;
+  margin-right: 0.625rem;
+  background-color: lightgrey;
+}
+
+/* 검색 버튼 */
+#search-container button {
+  padding: 0.625rem 1.25rem;
+  background-color: #df6658;
+  border: none;
+  border-radius: 0.1875rem;
+  cursor: pointer;
+}
+
+/* 검색 결과 스타일 */
+#search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border: 0.0625rem solid #ddd;
+  max-height: 12.5rem;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.search-result-item {
+  padding: 0.625rem;
+  border-bottom: 0.0625rem solid #ddd;
+  cursor: pointer;
+}
+
+.search-result-item:hover {
+  background-color: #f0f0f0;
+}
