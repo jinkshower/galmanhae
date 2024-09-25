@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/search")
+@RequestMapping("/api")
 public class PlaceSearchRestController {
 
 	private final PlaceQueryService placeQueryService;
@@ -20,9 +20,15 @@ public class PlaceSearchRestController {
 	/**
 	 * 검색의 결과를 포함하는 장소 이름(들)을 반환한다
 	 */
-	@GetMapping("/{keyword}")
+	@GetMapping("/search/{keyword}")
 	public ResponseEntity<List<PlaceSearchResponse>> search(@PathVariable final String keyword) {
 		List<PlaceSearchResponse> response = placeQueryService.search(keyword);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("/autocomplete/{keyword}")
+	public ResponseEntity<List<PlaceSearchResponse>> autoComplete(@PathVariable final String keyword) {
+		List<PlaceSearchResponse> response = placeQueryService.autoComplete(keyword);
 		return ResponseEntity.ok(response);
 	}
 }

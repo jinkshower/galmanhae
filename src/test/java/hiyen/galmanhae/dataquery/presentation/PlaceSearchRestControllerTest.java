@@ -29,10 +29,34 @@ class PlaceSearchRestControllerTest extends AcceptanceTest {
 		}
 	}
 
+	@Nested
+	@DisplayName("자동 완성")
+	class AutoComplete {
+
+		final String validKeyword = "서울";
+
+		@DisplayName("성공")
+		@Test
+		@Sql("/test-initialize.sql")
+		void success() {
+			final ExtractableResponse<Response> response = autoComplete(validKeyword);
+
+			assertThat(response.statusCode()).isEqualTo(200);
+		}
+	}
+
 	private ExtractableResponse<Response> search(final String keyword) {
 		return RestAssured.given().log().all()
 			.pathParam("keyword", keyword)
 			.when().get("/api/search/{keyword}")
+			.then().log().all()
+			.extract();
+	}
+
+	private ExtractableResponse<Response> autoComplete(final String keyword) {
+		return RestAssured.given().log().all()
+			.pathParam("keyword", keyword)
+			.when().get("/api/autocomplete/{keyword}")
 			.then().log().all()
 			.extract();
 	}
