@@ -31,7 +31,6 @@ public class PlaceQueryService {
 	@PostConstruct
 	public void init() {
 		final List<Place> allPlaces = placeRepository.findAll();
-		System.out.println("allPlaces = " + allPlaces);
 		cache.addAll(allPlaces);
 	}
 
@@ -76,14 +75,9 @@ public class PlaceQueryService {
 	}
 
 	public List<PlaceSearchResponse> autoComplete(final String keyword) {
-		System.out.println("cache = " + cache);
-		List<PlaceSearchResponse> list = cache.stream()
+		return cache.stream()
 			.filter(place -> place.placeNameAndCode().name().startsWith(keyword))
 			.map(PlaceSearchResponse::from)
 			.toList();
-
-		System.out.println("list = " + list);
-
-		return list;
 	}
 }
