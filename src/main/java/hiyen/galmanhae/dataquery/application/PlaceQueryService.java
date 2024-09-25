@@ -10,6 +10,8 @@ import hiyen.galmanhae.dataquery.domain.PlaceDetails;
 import hiyen.galmanhae.dataquery.response.PlaceDetailResponse;
 import hiyen.galmanhae.dataquery.response.PlaceResponse;
 import hiyen.galmanhae.dataquery.response.PlaceSearchResponse;
+import jakarta.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,9 +22,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PlaceQueryService {
 
+	private static final List<Place> cache = new ArrayList<>();
+
 	private final PlaceRepository placeRepository;
 	private final WeatherRepository weatherRepository;
 	private final CongestionRepository congestionRepository;
+
+	@PostConstruct
+	public void init() {
+		final List<Place> allPlaces = placeRepository.findAll();
+		System.out.println("allPlaces = " + allPlaces);
+		cache.addAll(allPlaces);
+	}
 
 	public List<PlaceResponse> getAllPlaces() {
 		final List<Place> allPlaces = placeRepository.findAll();
@@ -62,5 +73,17 @@ public class PlaceQueryService {
 		return found.stream()
 			.map(PlaceSearchResponse::from)
 			.toList();
+	}
+
+	public List<PlaceSearchResponse> autoComplete(final String keyword) {
+		System.out.println("cache = " + cache);
+		List<PlaceSearchResponse> list = cache.stream()
+			.filter(place -> place.placeNameAndCode().name().startsWith(keyword))
+			.map(PlaceSearchResponse::from)
+			.toList();
+
+		System.out.println("list = " + list);
+
+		return list;
 	}
 }
