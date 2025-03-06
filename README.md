@@ -1,6 +1,6 @@
 # 👨‍👩‍👦‍👦 갈만해?
 
-> 지금 서울, 이 장소 갈만해? 👉 https://galmanhae.site/
+> 지금 서울, 이 장소 갈만해? 👉 ~~https://galmanhae.site/~~ (비용상 문제로 현재 사이트는 운영중지)
 
 <img src="https://github.com/user-attachments/assets/9bf6f420-1973-4029-85c3-aeb7cdddca43" alt="image" width="400"/>
 
